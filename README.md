@@ -19,6 +19,7 @@ I made a web application that allows to clip youtube videos through a start and 
 3. Python
 4. Typescript
 5. Tailwind CSS
+6. Docker
 
 ## Libraries used
 
@@ -33,3 +34,5 @@ I made a web application that allows to clip youtube videos through a start and 
 [`https://www.diegolibonati.com.ar/#/project/108`](https://www.diegolibonati.com.ar/#/project/108)
 
 ## Video
+
+https://github.com/DiegoLibonati/CutTube/assets/99032604/44d38dd8-bf66-42b0-9240-053b705d2e70
