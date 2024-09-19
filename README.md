@@ -31,7 +31,7 @@ I made a web application that allows to clip youtube videos through a start and 
 
 ## Portfolio Link
 
-[`https://www.diegolibonati.com.ar/#/project/108`](https://www.diegolibonati.com.ar/#/project/108)
+[`https://www.diegolibonati.com.ar/#/project/CutTube`](https://www.diegolibonati.com.ar/#/project/CutTube)
 
 ## Video
 
