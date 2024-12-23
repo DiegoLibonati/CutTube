@@ -1,11 +1,17 @@
 import { BiCheckCircle } from "react-icons/bi";
-import { MainLayout } from "../layouts/MainLayout/MainLayout";
-import { SlStar } from "react-icons/sl";
 import { PiPencil } from "react-icons/pi";
-import { useUiStore } from "../hooks/useUiStore";
+import { SlStar } from "react-icons/sl";
+
+import { MainLayout } from "../../layouts/MainLayout/MainLayout";
+
+import { useUiStore } from "../../hooks/useUiStore";
 
 export const VideoClippedView = (): JSX.Element => {
-  const { handleVideoDownloaded } = useUiStore();
+  const { onSetVideoDownloaded } = useUiStore();
+
+  const handleClickGoBack: React.MouseEventHandler<HTMLButtonElement> = () => {
+    onSetVideoDownloaded(false);
+  };
 
   return (
     <MainLayout className="flex flex-col items-center justify-center">
@@ -34,7 +40,8 @@ export const VideoClippedView = (): JSX.Element => {
       <button
         type="button"
         className="text-white bg-[#F31B11] p-2 w-[15rem] rounded-full mt-48"
-        onClick={handleVideoDownloaded}
+        aria-label="go back"
+        onClick={handleClickGoBack}
       >
         Go back
       </button>

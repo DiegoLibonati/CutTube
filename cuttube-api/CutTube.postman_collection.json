@@ -30,57 +30,42 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{APP_URL_LOCAL}}/cut/download/file.mp4",
+					"raw": "{{APP_URL_LOCAL}}/cut/download/clip_cf1da321-de57-4b62-8699-06a3df991dc2.mp4",
 					"host": [
 						"{{APP_URL_LOCAL}}"
 					],
 					"path": [
 						"cut",
 						"download",
-						"file.mp4"
+						"clip_cf1da321-de57-4b62-8699-06a3df991dc2.mp4"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Cut Video",
+			"name": "Clip Video",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "url",
-							"value": "https://www.youtube.com/watch?v=joHCGlzxi8U&ab_channel=FeidVEVO",
-							"type": "text"
-						},
-						{
-							"key": "start",
-							"value": "00:00:10",
-							"type": "text"
-						},
-						{
-							"key": "end",
-							"value": "00:00:20",
-							"type": "text"
-						},
-						{
-							"key": "cut_name",
-							"value": "clip",
-							"type": "text"
-						}
-					]
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"https://www.youtube.com/watch?v=joHCGlzxi8U&ab_channel=FeidVEVO\",\r\n    \"start\": \"00:00:10\",\r\n    \"end\": \"00:00:20\",\r\n    \"cut_name\": \"clip\"\r\n}"
 				},
 				"url": {
-					"raw": "{{APP_URL_LOCAL}}/cut/cut_video",
+					"raw": "{{APP_URL_LOCAL}}/cut/clip_video",
 					"host": [
 						"{{APP_URL_LOCAL}}"
 					],
 					"path": [
 						"cut",
-						"cut_video"
+						"clip_video"
 					]
 				}
 			},
@@ -92,14 +77,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{APP_URL_LOCAL}}/cut/remove/file.mp4",
+					"raw": "{{APP_URL_LOCAL}}/cut/remove/clip_cf1da321-de57-4b62-8699-06a3df991dc2.mp4",
 					"host": [
 						"{{APP_URL_LOCAL}}"
 					],
 					"path": [
 						"cut",
 						"remove",
-						"file.mp4"
+						"clip_cf1da321-de57-4b62-8699-06a3df991dc2.mp4"
 					]
 				}
 			},

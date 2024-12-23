@@ -16,6 +16,23 @@ export type UiState = {
   videoDownloaded: boolean;
 };
 
+// Interface Props
+
+export interface GeneralProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+
+
+
+
+// NEW
+
+export type Config = {
+  apiUrl: string;
+};
+
 export type Modal = {
   title: string;
   message: string;
@@ -25,66 +42,3 @@ export type Modal = {
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-// TYPES HOOKS
-export type UseScreenDetector = {
-  isMobile: boolean;
-  isTablet: boolean;
-  isDesktop: boolean;
-};
-
-export type UseForm<T> = {
-  formState: T;
-  onInputChange: React.ChangeEventHandler<HTMLInputElement>;
-  onResetForm: () => void;
-};
-
-export type UseUiStore = {
-  modal: Modal;
-  videoDownloaded: boolean;
-  loading: boolean;
-  handleLoading: () => void;
-  handleVideoDownloaded: () => void;
-  handleModal: (
-    title: string,
-    message: string,
-    buttonText: string,
-    open: boolean
-  ) => void;
-};
-
-// Interface Props
-export interface InputProps {
-  type: string;
-  className: string;
-  placeholder: string;
-  id: string;
-  value: string;
-  name: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-}
-
-export interface LabelProps {
-  labelText: string;
-  className: string;
-}
-
-export interface InputGroupProps {
-  className: string;
-  children: React.ReactNode;
-}
-
-export interface MainLayoutProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-// Interface Payload
-export interface UiPayload {
-  setModal: {
-    title: string;
-    message: string;
-    buttonText: string;
-    open: boolean;
-  };
-}

@@ -1,11 +1,13 @@
 import { Modal } from "../components/Modal/Modal";
 import { NavBar } from "../components/NavBar/NavBar";
 import { SideNav } from "../components/SideNav/SideNav";
-import { useScreenDetector } from "../hooks/useScreenDetector";
+
+import { CreateClipView } from "../views/CreateClipView/CreateClipView";
+import { LoadingView } from "../views/LoadingView/LoadingView";
+import { VideoClippedView } from "../views/VideoClippedView/VideoClippedView";
+
 import { useUiStore } from "../hooks/useUiStore";
-import { CreateClipView } from "../views/CreateClipView";
-import { LoadingView } from "../views/LoadingView";
-import { VideoClippedView } from "../views/VideoClippedView";
+import { useScreenDetector } from "../hooks/useScreenDetector";
 
 export const CutPage = (): JSX.Element => {
   // Hooks
@@ -24,7 +26,7 @@ export const CutPage = (): JSX.Element => {
         <CreateClipView></CreateClipView>
       )}
 
-      {modal.open ? <Modal></Modal> : null}
+      {modal.open && <Modal></Modal>}
     </div>
   );
 };

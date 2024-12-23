@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { UseForm } from "../entities/vite-env";
+
+type UseForm<T> = {
+  formState: T;
+  onInputChange: React.ChangeEventHandler<HTMLInputElement>;
+  onResetForm: () => void;
+};
 
 export const useForm = <T,>(initialForm: T): UseForm<T> => {
   const [formState, setFormState] = useState<T>(initialForm);
@@ -20,8 +25,8 @@ export const useForm = <T,>(initialForm: T): UseForm<T> => {
   };
 
   return {
-    formState,
-    onInputChange,
-    onResetForm,
+    formState: formState,
+    onInputChange: onInputChange,
+    onResetForm: onResetForm,
   };
 };

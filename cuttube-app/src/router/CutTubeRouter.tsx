@@ -1,4 +1,5 @@
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import { CutPage } from "../pages/CutPage";
 
 export const CutTubeRouter = (): JSX.Element => {

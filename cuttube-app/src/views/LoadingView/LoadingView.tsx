@@ -1,5 +1,6 @@
-import { Loader } from "../components/Loader/Loader";
-import { MainLayout } from "../layouts/MainLayout/MainLayout";
+import { Loader } from "../../components/Loader/Loader";
+
+import { MainLayout } from "../../layouts/MainLayout/MainLayout";
 
 export const LoadingView = (): JSX.Element => {
   return (

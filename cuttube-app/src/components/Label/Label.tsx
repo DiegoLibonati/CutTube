@@ -1,7 +1,18 @@
-import { LabelProps } from "../../entities/vite-env";
+import { GeneralProps } from "../../entities/vite-env";
 
-export const Label = ({ labelText, className }: LabelProps): JSX.Element => {
+interface LabelProps extends GeneralProps {
+  labelText: string;
+  htmlFor: string;
+}
+
+export const Label = ({
+  labelText,
+  htmlFor,
+  className,
+}: LabelProps): JSX.Element => {
   return (
-    <label className={className}>{labelText}</label>
+    <label className={className} htmlFor={htmlFor}>
+      {labelText}
+    </label>
   );
 };

@@ -1,20 +1,22 @@
-import flask
 import os
-import sys
+from typing import Any
 
-from models.video import Video
+import flask
+
+from src.models.VideoTube import VideoTube
+from src.utils.constants import FOLDER_DOWNLOAD_DOCKER
+from src.utils.constants import FOLDER_CLIPS_DOCKER
 
 
-def alive() -> dict:
+def alive() -> dict[str, Any]:
     return flask.make_response({
         "author": "Diego Libonati",
         "API": "Cut Tube API",
-        "version": "0.0.1"
+        "version": "0.0.2"
     }, 200)
 
 
-def cut_video() -> dict:
-
+def clip_video() -> dict[str, Any]:
     body = flask.request.get_json()
 
     url = body.get("url")
@@ -22,8 +24,11 @@ def cut_video() -> dict:
     end = body.get("end")
     cut_name = body.get("cut_name")
 
-    video = Video(
-        url = url
+    video = VideoTube(
+        url=url,
+        filename=cut_name,
+        folder_clips=FOLDER_CLIPS_DOCKER,
+        folder_download=FOLDER_DOWNLOAD_DOCKER
     )
 
     message, load_video = video.get_video_from_youtube()
@@ -33,48 +38,30 @@ def cut_video() -> dict:
             "message": str(message),
         }, 400)
 
-    message, load_stream = video.get_better_stream()
-
-    if not load_stream:
-        return flask.make_response({
-            "message": str(message),
-        }, 400)
-
     video.download_stream()
 
-    if video.can_cut:
-        video.cut_video(
-            new_filename = cut_name,
-            start_time = start,
-            end_time = end,           
-        )
+    video.generate_clip(
+        start_time=start,
+        end_time=end,       
+    )
 
     return flask.make_response({
-        "message": "Video cutted",
-        "filename": f"{cut_name}.mp4"
+        "message": "Video cutted.",
+        "filename": f"{video.filename}.mp4"
     }, 200)
 
 
-def download_video(
-    filename: str
-):
-    file_path = f"{os.path.dirname(sys.modules['__main__'].__file__)}/{filename}"
+def download_clip(filename: str) -> dict[str, Any]:
+    file_path = f"{FOLDER_CLIPS_DOCKER}/{filename}"
 
-    return flask.send_file(
-        file_path,
-        as_attachment = True
-    )
+    return flask.send_file(file_path, as_attachment=True)
 
 
-def remove_clip(
-    filename: str
-):
-    file_path = f"{os.path.dirname(sys.modules['__main__'].__file__)}/{filename}"
+def remove_clip(filename: str) -> dict[str, Any]:
+    file_path = f"{FOLDER_CLIPS_DOCKER}/{filename}"
 
-    os.remove(
-        file_path
-    )
+    os.remove(file_path)
 
     return flask.make_response({
-        "message": "Clip removed"
+        "message": "Clip removed."
     }, 200)

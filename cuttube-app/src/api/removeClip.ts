@@ -7,6 +7,7 @@ export const removeClip = async (
     const request = await axios.delete(`/v1/cut/remove/${filename}`);
 
     const message = request.data.message;
+
     return message;
   } catch (e) {
     return e;

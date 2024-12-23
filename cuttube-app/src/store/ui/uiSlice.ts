@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UiPayload, UiState } from "../../entities/vite-env";
+
+import { Modal, UiState } from "../../entities/vite-env";
 
 const uiState: UiState = {
   loading: false,
@@ -16,18 +17,28 @@ export const uiSlice = createSlice({
   name: "ui",
   initialState: uiState,
   reducers: {
-    setLoading: (state) => {
-      state.loading = !state.loading;
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      const boolean = action.payload;
+
+      state.loading = boolean;
     },
-    setModal: (state, action: PayloadAction<UiPayload["setModal"]>) => {
-      state.modal = action.payload;
+    setModal: (state, action: PayloadAction<Modal>) => {
+      const modal = action.payload;
+
+      state.modal = modal;
     },
-    setVideoDownloaded: (state) => {
-      state.videoDownloaded = !state.videoDownloaded;
+    resetModal: (state) => {
+      state.modal = { buttonText: "", message: "", open: false, title: "" };
+    },
+    setVideoDownloaded: (state, action: PayloadAction<boolean>) => {
+      const boolean = action.payload;
+
+      state.videoDownloaded = boolean;
     },
   },
 });
 
-export const { setLoading, setModal, setVideoDownloaded } = uiSlice.actions;
+export const { setLoading, setModal, resetModal, setVideoDownloaded } =
+  uiSlice.actions;
 
 export default uiSlice.reducer;

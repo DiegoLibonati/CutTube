@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { UseScreenDetector } from "../entities/vite-env";
+
+type UseScreenDetector = {
+  isMobile: boolean;
+  isTablet: boolean;
+  isDesktop: boolean;
+};
 
 export const useScreenDetector = (): UseScreenDetector => {
   const [width, setWidth] = useState<number>(window.innerWidth);

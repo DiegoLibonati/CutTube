@@ -1,6 +1,22 @@
-import { UseUiStore } from "../entities/vite-env";
-import { setLoading, setModal, setVideoDownloaded } from "../store/ui/uiSlice";
-import { useAppDispatch, useAppSelector } from "./useRedux";
+import { Modal } from "../entities/vite-env";
+
+import {
+  resetModal,
+  setLoading,
+  setModal,
+  setVideoDownloaded,
+} from "../store/ui/uiSlice";
+import { useAppDispatch, useAppSelector } from "../constants/redux";
+
+type UseUiStore = {
+  modal: Modal;
+  videoDownloaded: boolean;
+  loading: boolean;
+  onSetVideoDownloaded: (boolean: boolean) => void;
+  onSetLoading: (boolean: boolean) => void;
+  onOpenModal: (modal: Modal) => void;
+  onResetModal: () => void;
+};
 
 export const useUiStore = (): UseUiStore => {
   const { modal, loading, videoDownloaded } = useAppSelector(
@@ -8,30 +24,29 @@ export const useUiStore = (): UseUiStore => {
   );
   const dispatch = useAppDispatch();
 
-  const handleLoading = (): void => {
-    dispatch(setLoading());
+  const onSetLoading = (boolean: boolean) => {
+    dispatch(setLoading(boolean));
   };
 
-  const handleModal = (
-    title: string,
-    message: string,
-    buttonText: string,
-    open: boolean
-  ): void => {
-    dispatch(setModal({ title, message, buttonText, open }));
+  const onOpenModal = (modal: Modal): void => {
+    dispatch(setModal(modal));
   };
 
-  const handleVideoDownloaded = (): void => {
-    dispatch(setVideoDownloaded());
-    return;
+  const onResetModal = (): void => {
+    dispatch(resetModal());
+  };
+
+  const onSetVideoDownloaded = (boolean: boolean): void => {
+    dispatch(setVideoDownloaded(boolean));
   };
 
   return {
-    modal,
-    loading,
-    videoDownloaded,
-    handleVideoDownloaded,
-    handleLoading,
-    handleModal,
+    modal: modal,
+    loading: loading,
+    videoDownloaded: videoDownloaded,
+    onSetVideoDownloaded: onSetVideoDownloaded,
+    onSetLoading: onSetLoading,
+    onOpenModal: onOpenModal,
+    onResetModal: onResetModal,
   };
 };
