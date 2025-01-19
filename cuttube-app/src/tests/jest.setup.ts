@@ -1,17 +1,9 @@
 import "@testing-library/jest-dom";
 
-import { Config, Modal } from "../entities/vite-env";
-
-const MOCK_CONFIG: Config = {
-  apiUrl: "YOUR API URL [OPTIONAL]",
-};
+import { mockConfig } from "./jest.constants";
 
 jest.mock("../constants/config.ts", () => ({
   get CONFIG() {
-    return MOCK_CONFIG;
+    return mockConfig;
   },
 }));
-
-export const getMockModal = (modal: Modal): Modal => {
-  return modal;
-};

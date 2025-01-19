@@ -7,7 +7,7 @@ export const MainLayout = ({
   className,
 }: MainLayoutProps): JSX.Element => {
   return (
-    <main className={`w-full min-h-screen bg-[#161616] ${className}`}>
+    <main className={`w-full min-h-screen bg-primary ${className}`}>
       {children}
     </main>
   );

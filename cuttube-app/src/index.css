@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --base-font-size: 16px;
+  --primary-color: #161616;
+  --secondary-color: #f31b11;
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --black-tiny-color: #323232;
+}
+
+* {
+  font-size: var(--base-font-size);
+}

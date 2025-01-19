@@ -14,11 +14,15 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-test("It must render the main layout.", () => {
-  renderComponent();
+describe("MainLayout.tsx", () => {
+  describe("General Tests.", () => {
+    test("It must render the main layout.", () => {
+      renderComponent();
 
-  const main = screen.getByRole("main")
+      const main = screen.getByRole("main");
 
-  expect(main).toBeInTheDocument();
-  expect(main).toHaveClass("w-full min-h-screen bg-[#161616]");
+      expect(main).toBeInTheDocument();
+      expect(main).toHaveClass("w-full min-h-screen bg-primary");
+    });
+  });
 });

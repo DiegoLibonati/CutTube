@@ -14,29 +14,33 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-test("It must render the main.", () => {
-  renderComponent();
+describe("LoadingView.tsx", () => {
+  describe("General Tests.", () => {
+    test("It must render the main.", () => {
+      renderComponent();
 
-  const main = screen.getByRole("main");
+      const main = screen.getByRole("main");
 
-  expect(main).toBeInTheDocument();
-});
+      expect(main).toBeInTheDocument();
+    });
 
-test("It must render the loader.", () => {
-  const { container } = renderComponent();
+    test("It must render the loader.", () => {
+      const { container } = renderComponent();
 
-  const loader = container.querySelector(".loader") as HTMLDivElement;
+      const loader = container.querySelector(".loader") as HTMLDivElement;
 
-  expect(loader).toBeInTheDocument();
-  expect(loader).toHaveClass("loader");
-});
+      expect(loader).toBeInTheDocument();
+      expect(loader).toHaveClass("loader");
+    });
 
-test("It must render the informational text.", () => {
-  renderComponent();
+    test("It must render the informational text.", () => {
+      renderComponent();
 
-  const heading = screen.getByRole("heading", {
-    name: /Your video clip is being processed. This may take a few moments/i,
+      const heading = screen.getByRole("heading", {
+        name: /Your video clip is being processed. This may take a few moments/i,
+      });
+
+      expect(heading).toBeInTheDocument();
+    });
   });
-
-  expect(heading).toBeInTheDocument();
 });

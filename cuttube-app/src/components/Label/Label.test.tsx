@@ -32,12 +32,16 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-test("It must render the label.", () => {
-  const { props } = renderComponent();
+describe("Label.tsx", () => {
+  describe("General Tests.", () => {
+    test("It must render the label.", () => {
+      const { props } = renderComponent();
 
-  const label = screen.getByText(props.labelText);
+      const label = screen.getByText(props.labelText);
 
-  expect(label).toBeInTheDocument();
-  expect(label).toHaveAttribute("for", props.htmlFor);
-  expect(label).toHaveClass(props.className);
+      expect(label).toBeInTheDocument();
+      expect(label).toHaveAttribute("for", props.htmlFor);
+      expect(label).toHaveClass(props.className);
+    });
+  });
 });

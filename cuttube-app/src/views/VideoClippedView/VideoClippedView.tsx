@@ -39,7 +39,7 @@ export const VideoClippedView = (): JSX.Element => {
 
       <button
         type="button"
-        className="text-white bg-[#F31B11] p-2 w-[15rem] rounded-full mt-48"
+        className="text-white bg-secondary p-2 w-[15rem] rounded-full mt-48"
         aria-label="go back"
         onClick={handleClickGoBack}
       >

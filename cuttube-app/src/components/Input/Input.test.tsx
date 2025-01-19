@@ -45,31 +45,35 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-test("It must render the input.", () => {
-  const { props } = renderComponent();
+describe("Input.tsx", () => {
+  describe("General Tests.", () => {
+    test("It must render the input.", () => {
+      const { props } = renderComponent();
 
-  const input = screen.getByRole("textbox");
+      const input = screen.getByRole("textbox");
 
-  expect(input).toBeInTheDocument();
-  expect(input).toHaveAttribute("name", props.name);
-  expect(input).toHaveAttribute("placeholder", props.placeholder);
-  expect(input).toHaveAttribute("type", props.type);
-  expect(input).toHaveValue(props.value);
-  expect(input).toHaveClass(props.className);
-});
+      expect(input).toBeInTheDocument();
+      expect(input).toHaveAttribute("name", props.name);
+      expect(input).toHaveAttribute("placeholder", props.placeholder);
+      expect(input).toHaveAttribute("type", props.type);
+      expect(input).toHaveValue(props.value);
+      expect(input).toHaveClass(props.className);
+    });
 
-test("It must execute the onChange function when you write something to the input.", async () => {
-  const inputValue = "H";
+    test("It must execute the onChange function when you write something to the input.", async () => {
+      const inputValue = "H";
 
-  const { props } = renderComponent();
+      const { props } = renderComponent();
 
-  const input = screen.getByRole("textbox");
+      const input = screen.getByRole("textbox");
 
-  expect(input).toBeInTheDocument();
+      expect(input).toBeInTheDocument();
 
-  await user.clear(input);
-  await user.click(input);
-  await user.keyboard(inputValue);
+      await user.clear(input);
+      await user.click(input);
+      await user.keyboard(inputValue);
 
-  expect(props.mockOnChange).toHaveBeenCalledTimes(1);
+      expect(props.mockOnChange).toHaveBeenCalledTimes(1);
+    });
+  });
 });

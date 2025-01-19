@@ -14,14 +14,18 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-test("It must render the header.", () => {
-  const { container } = renderComponent();
+describe("NavBar.tsx", () => {
+  describe("General Tests.", () => {
+    test("It must render the header.", () => {
+      const { container } = renderComponent();
 
-  const header = container.querySelector("header") as HTMLElement;
-  const headerChild = header?.firstChild as HTMLDivElement;
+      const header = container.querySelector("header") as HTMLElement;
+      const headerChild = header?.firstChild as HTMLDivElement;
 
-  expect(header).toBeInTheDocument();
-  expect(header?.children).toHaveLength(1);
-  expect(headerChild).toBeInTheDocument();
-  expect(headerChild.children).toHaveLength(1);
+      expect(header).toBeInTheDocument();
+      expect(header?.children).toHaveLength(1);
+      expect(headerChild).toBeInTheDocument();
+      expect(headerChild.children).toHaveLength(1);
+    });
+  });
 });

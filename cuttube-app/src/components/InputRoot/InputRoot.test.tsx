@@ -30,13 +30,17 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-test("It must render the root input next to the child component.", () => {
-  const { props, valueText } = renderComponent();
+describe("InputRoot.tsx", () => {
+  describe("General Tests.", () => {
+    test("It must render the root input next to the child component.", () => {
+      const { props, valueText } = renderComponent();
 
-  const text = screen.getByText(valueText);
-  const inputRoot = text.parentElement;
+      const text = screen.getByText(valueText);
+      const inputRoot = text.parentElement;
 
-  expect(text).toBeInTheDocument();
-  expect(inputRoot).toBeInTheDocument();
-  expect(inputRoot).toHaveClass(props.className);
+      expect(text).toBeInTheDocument();
+      expect(inputRoot).toBeInTheDocument();
+      expect(inputRoot).toHaveClass(props.className);
+    });
+  });
 });

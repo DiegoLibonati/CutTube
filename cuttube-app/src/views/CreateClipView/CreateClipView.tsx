@@ -124,7 +124,7 @@ export const CreateClipView = (): JSX.Element => {
               id="input-start-time"
               name="startTime"
               type="text"
-              className="p-2 rounded-full bg-[#323232] w-full outline-none text-white placeholder:text-[#999]"
+              className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
               placeholder="00:00:00"
               value={formState.startTime}
               onChange={onInputChange}
@@ -141,7 +141,7 @@ export const CreateClipView = (): JSX.Element => {
               id="input-end-time"
               name="endTime"
               type="text"
-              className="p-2 rounded-full bg-[#323232] w-full outline-none text-white placeholder:text-[#999]"
+              className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
               placeholder="00:00:00"
               value={formState.endTime}
               onChange={onInputChange}
@@ -159,7 +159,7 @@ export const CreateClipView = (): JSX.Element => {
             id="input-clip-title"
             name="clipTitle"
             type="text"
-            className="p-2 rounded-full bg-[#323232] w-full outline-none text-white placeholder:text-[#999]"
+            className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
             placeholder="My Awesome Clip"
             value={formState.clipTitle}
             onChange={onInputChange}
@@ -176,7 +176,7 @@ export const CreateClipView = (): JSX.Element => {
             id="input-youtube-link"
             name="youtubeLink"
             type="text"
-            className="p-2 rounded-full bg-[#323232] w-full outline-none text-white placeholder:text-[#999]"
+            className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
             placeholder="https://youtube.com/watch?v=12345"
             value={formState.youtubeLink}
             onChange={onInputChange}
