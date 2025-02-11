@@ -1,5 +1,4 @@
 import os
-from typing import Any
 
 import flask
 
@@ -8,7 +7,7 @@ from src.utils.constants import FOLDER_DOWNLOAD_DOCKER
 from src.utils.constants import FOLDER_CLIPS_DOCKER
 
 
-def alive() -> dict[str, Any]:
+def alive() -> flask.Response:
     return flask.make_response({
         "author": "Diego Libonati",
         "API": "Cut Tube API",
@@ -16,7 +15,7 @@ def alive() -> dict[str, Any]:
     }, 200)
 
 
-def clip_video() -> dict[str, Any]:
+def clip_video() -> flask.Response:
     body = flask.request.get_json()
 
     url = body.get("url")
@@ -51,13 +50,13 @@ def clip_video() -> dict[str, Any]:
     }, 200)
 
 
-def download_clip(filename: str) -> dict[str, Any]:
+def download_clip(filename: str) -> flask.Response:
     file_path = f"{FOLDER_CLIPS_DOCKER}/{filename}"
 
     return flask.send_file(file_path, as_attachment=True)
 
 
-def remove_clip(filename: str) -> dict[str, Any]:
+def remove_clip(filename: str) -> flask.Response:
     file_path = f"{FOLDER_CLIPS_DOCKER}/{filename}"
 
     os.remove(file_path)
