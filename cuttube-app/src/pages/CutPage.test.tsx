@@ -8,7 +8,7 @@ import { useUiStore } from "../hooks/useUiStore";
 import { useScreenDetector } from "../hooks/useScreenDetector";
 import { store } from "../store/store";
 
-import { getMockModal } from "../tests/jest.constants";
+import { getMockModal } from "../../tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;

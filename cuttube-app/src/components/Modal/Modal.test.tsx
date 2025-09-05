@@ -8,7 +8,7 @@ import { Modal } from "./Modal";
 import { useUiStore } from "../../hooks/useUiStore";
 import { store } from "../../store/store";
 
-import { getMockModal } from "../../tests/jest.constants";
+import { getMockModal } from "../../../tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;

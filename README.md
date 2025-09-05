@@ -4,10 +4,10 @@
 
 1. Clone the repository with `git clone "repository link"`
 2. Join to `cuttube-app` folder and execute: `npm install` or `yarn install` in the terminal
-3. Go to the previous folder and execute: `docker-compose build --no-cache` in the terminal
-4. Once built, you must execute the command: `docker-compose up --force-recreate` in the terminal
+3. Go to the previous folder and execute: `docker-compose -f dev.docker-compose.yml build --no-cache` in the terminal
+4. Once built, you must execute the command: `docker-compose -f dev.docker-compose.yml up --force-recreate` in the terminal
 
-NOTE: You have to be standing in the folder containing the: `docker-compose.yml` and you need to install `Docker Desktop` if you are in Windows.
+NOTE: You have to be standing in the folder containing the: `dev.docker-compose.yml` and you need to install `Docker Desktop` if you are in Windows.
 
 ## Description
 
@@ -29,10 +29,6 @@ I made a web application that allows to clip youtube videos through a start and 
 #### Dependencies
 
 ```
-"@types/jest": "^29.5.13"
-"@types/node": "^20.10.6"
-"@types/react": "^18.3.11"
-"@types/react-dom": "^18.3.1"
 "@reduxjs/toolkit": "^2.2.2"
 "axios": "^1.6.8"
 "react": "^18.2.0"
@@ -45,6 +41,10 @@ I made a web application that allows to clip youtube videos through a start and 
 #### devDependencies
 
 ```
+"@types/jest": "^29.5.13"
+"@types/node": "^20.10.6"
+"@types/react": "^18.3.11"
+"@types/react-dom": "^18.3.1"
 "@testing-library/dom": "^10.4.0"
 "@testing-library/jest-dom": "^6.6.2"
 "@testing-library/react": "^16.0.1"
@@ -52,18 +52,18 @@ I made a web application that allows to clip youtube videos through a start and 
 "@vitejs/plugin-react": "^4.2.1"
 "@typescript-eslint/parser": "^7.2.0"
 "@typescript-eslint/eslint-plugin": "^7.2.0"
+"axios-mock-adapter": "^2.1.0"
+"autoprefixer": "^10.4.18"
 "eslint": "^8.57.0"
 "eslint-plugin-react-hooks": "^4.6.0"
 "eslint-plugin-react-refresh": "^0.4.6"
-"typescript": "^5.2.2"
-"vite": "^5.2.0"
-"autoprefixer": "^10.4.18"
-"postcss": "^8.4.37"
-"tailwindcss": "^3.4.1"
 "jest": "^29.7.0"
 "jest-environment-jsdom": "^29.7.0"
+"postcss": "^8.4.37"
+"tailwindcss": "^3.4.1"
 "ts-jest": "^29.2.5"
-"axios-mock-adapter": "^2.1.0"
+"typescript": "^5.2.2"
+"vite": "^5.2.0"
 ```
 
 ### Backend
