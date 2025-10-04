@@ -31,8 +31,9 @@ I made a web application that allows to clip youtube videos through a start and 
 1. React
 2. Typescript
 3. Tailwind CSS
-4. HTML5
-5. Vite
+4. CSS3
+5. HTML5
+6. Vite
 
 BackEnd:
 
