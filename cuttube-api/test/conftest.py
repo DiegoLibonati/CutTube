@@ -25,7 +25,7 @@ logging.basicConfig(
 
 @pytest.fixture(scope="session")
 def flask_app() -> Flask:
-    app = create_app()
+    app = create_app("testing")
     return app
 
 

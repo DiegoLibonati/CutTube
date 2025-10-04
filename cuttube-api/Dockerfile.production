@@ -35,4 +35,4 @@ RUN useradd -m appuser \
 
 USER appuser
 
-CMD ["gunicorn", "-c", "config/gunicorn.config.py", "wsgi:app"]
+CMD ["gunicorn", "-c", "config/gunicorn_config.py", "wsgi:app"]

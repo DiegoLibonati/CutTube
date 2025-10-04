@@ -150,8 +150,7 @@ AUTHOR: Diego Libonati
 2. `VITE_API_URL`: Refers to the base URL of the backend API the frontend consumes.
 3. `HOST`: Refers to the network interface where the backend API listens (e.g., 0.0.0.0 to allow external connections).
 4. `PORT`: Refers to the port on which the backend API is exposed.
-5. `DEBUG_MODE`: Refers to enabling or disabling debug mode for backend
-6. `WORK_DIR`: Refers to the docker working path.
+5. `WORK_DIR`: Refers to the docker working path.
 
 ```
 # Backend
@@ -162,7 +161,6 @@ WORK_DIR=/home/app
 
 HOST=0.0.0.0
 PORT=5050
-DEBUG_MODE=true
 
 # Frontend
 
