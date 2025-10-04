@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   cuttube-api:
     build:
@@ -6,11 +5,11 @@ services:
       dockerfile: Dockerfile.development
     restart: always
     env_file:
-      - ./.env
+      - ./cuttube-api/.env
     volumes:
       - ./cuttube-api/src:/home/app/src
     ports:
-      - 5000:5000
+      - 5050:5050
     networks:
       - cuttube-net
 
@@ -20,14 +19,17 @@ services:
       dockerfile: Dockerfile.development
     restart: always
     env_file:
-      - ./.env
+      - ./cuttube-app/.env
     volumes:
       - ./cuttube-app:/home/app
       - /home/app/node_modules
+    depends_on:
+      - cuttube-api
     ports:
-      - 5173:5173
+      - "3000:3000"
     networks:
-      - cuttube-net
+     - cuttube-net
+    tty: true
 
 networks:
   cuttube-net:

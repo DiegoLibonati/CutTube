@@ -2,13 +2,13 @@ import { screen, render } from "@testing-library/react";
 
 import { Provider } from "react-redux";
 
-import { CutPage } from "./CutPage";
+import { CutPage } from "@src/pages/CutPage";
 
-import { useUiStore } from "../hooks/useUiStore";
-import { useScreenDetector } from "../hooks/useScreenDetector";
-import { store } from "../store/store";
+import { useUiStore } from "@src/hooks/useUiStore";
+import { useScreenDetector } from "@src/hooks/useScreenDetector";
+import { store } from "@src/store/store";
 
-import { getMockModal } from "../../tests/jest.constants";
+import { getMockModal } from "@tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -26,12 +26,12 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-jest.mock("../hooks/useUiStore.tsx", () => ({
-  ...jest.requireActual("../hooks/useUiStore.tsx"),
+jest.mock("@src/hooks/useUiStore.tsx", () => ({
+  ...jest.requireActual("@src/hooks/useUiStore.tsx"),
   useUiStore: jest.fn(),
 }));
-jest.mock("../hooks/useScreenDetector.tsx", () => ({
-  ...jest.requireActual("../hooks/useScreenDetector.tsx"),
+jest.mock("@src/hooks/useScreenDetector.tsx", () => ({
+  ...jest.requireActual("@src/hooks/useScreenDetector.tsx"),
   useScreenDetector: jest.fn(),
 }));
 

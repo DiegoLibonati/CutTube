@@ -1,22 +1,13 @@
-import { Modal } from "../entities/vite-env";
+import { Modal } from "@src/entities/entities";
+import { UseUiStore } from "@src/entities/hooks";
 
 import {
   resetModal,
   setLoading,
   setModal,
   setVideoDownloaded,
-} from "../store/ui/uiSlice";
-import { useAppDispatch, useAppSelector } from "../constants/redux";
-
-type UseUiStore = {
-  modal: Modal;
-  videoDownloaded: boolean;
-  loading: boolean;
-  onSetVideoDownloaded: (boolean: boolean) => void;
-  onSetLoading: (boolean: boolean) => void;
-  onOpenModal: (modal: Modal) => void;
-  onResetModal: () => void;
-};
+} from "@src/store/ui/uiSlice";
+import { useAppDispatch, useAppSelector } from "@src/constants/redux";
 
 export const useUiStore = (): UseUiStore => {
   const { modal, loading, videoDownloaded } = useAppSelector(

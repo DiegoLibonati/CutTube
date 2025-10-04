@@ -1,11 +1,11 @@
 import { screen, render } from "@testing-library/react";
 
-import { InputRoot } from "./InputRoot";
+import { InputRootProps } from "@src/entities/props";
+
+import { InputRoot } from "@src/components/InputRoot/InputRoot";
 
 type RenderComponent = {
-  props: {
-    className: string;
-  };
+  props: InputRootProps;
   valueText: string;
   container: HTMLElement;
 };
@@ -40,7 +40,7 @@ describe("InputRoot.tsx", () => {
 
       expect(text).toBeInTheDocument();
       expect(inputRoot).toBeInTheDocument();
-      expect(inputRoot).toHaveClass(props.className);
+      expect(inputRoot).toHaveClass(props.className!);
     });
   });
 });

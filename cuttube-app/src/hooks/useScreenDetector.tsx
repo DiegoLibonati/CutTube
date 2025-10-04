@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 
-type UseScreenDetector = {
-  isMobile: boolean;
-  isTablet: boolean;
-  isDesktop: boolean;
-};
+import { UseScreenDetector } from "@src/entities/hooks";
 
 export const useScreenDetector = (): UseScreenDetector => {
   const [width, setWidth] = useState<number>(window.innerWidth);

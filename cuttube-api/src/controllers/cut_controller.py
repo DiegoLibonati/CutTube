@@ -1,66 +1,137 @@
 import os
 
-import flask
+from flask import Response, jsonify, request, send_file
 
-from src.models.VideoTube import VideoTube
-from src.utils.constants import FOLDER_DOWNLOAD_DOCKER
-from src.utils.constants import FOLDER_CLIPS_DOCKER
+from src.constants.codes import (
+    CODE_ERROR_VIDEO_TUBE_SERVICE,
+    CODE_NOT_FOUND_PATH,
+    CODE_NOT_VALID_FIELDS,
+    CODE_SUCCESS_CUT_VIDEO,
+    CODE_SUCCESS_DELETE_CLIP,
+)
+from src.constants.messages import (
+    MESSAGE_NOT_FOUND_PATH,
+    MESSAGE_NOT_VALID_FIELDS,
+    MESSAGE_SUCCESS_CUT_VIDEO,
+    MESSAGE_SUCCESS_DELETE_CLIP,
+)
+from src.constants.paths import (
+    FOLDER_CLIPS,
+    FOLDER_CLIPS_DOCKER,
+    FOLDER_DOWNLOAD_DOCKER,
+)
+from src.constants.vars import CLIP_EXTENSION
+from src.models.clip_model import ClipModel
+from src.services.file_service import FileService
+from src.services.video_tube_service import VideoTubeService
+from src.utils.error_handler import handle_exceptions
+from src.utils.exceptions import ConflictAPIError, NotFoundAPIError, ValidationAPIError
 
 
-def alive() -> flask.Response:
-    return flask.make_response({
+@handle_exceptions
+def alive() -> Response:
+    response = {
+        "message": "I am Alive!",
+        "version_bp": "2.0.0",
         "author": "Diego Libonati",
-        "API": "Cut Tube API",
-        "version": "0.0.2"
-    }, 200)
+        "name_bp": "Cut",
+    }
+
+    return jsonify(response), 200
 
 
-def clip_video() -> flask.Response:
-    body = flask.request.get_json()
+@handle_exceptions
+def clip_video(filename: str) -> Response:
+    body = request.get_json()
 
-    url = body.get("url")
-    start = body.get("start")
-    end = body.get("end")
-    cut_name = body.get("cut_name")
+    clip = ClipModel(filename=filename, **body)
 
-    video = VideoTube(
-        url=url,
-        filename=cut_name,
+    video_tube_service = VideoTubeService(
+        url=clip.url,
+        filename=clip.filename,
         folder_clips=FOLDER_CLIPS_DOCKER,
-        folder_download=FOLDER_DOWNLOAD_DOCKER
+        folder_download=FOLDER_DOWNLOAD_DOCKER,
     )
 
-    message, load_video = video.get_video_from_youtube()
+    message, load_video = video_tube_service.get_video_from_youtube()
 
     if not load_video:
-        return flask.make_response({
-            "message": str(message),
-        }, 400)
+        raise ConflictAPIError(code=CODE_ERROR_VIDEO_TUBE_SERVICE, message=message)
 
-    video.download_stream()
-
-    video.generate_clip(
-        start_time=start,
-        end_time=end,       
+    video_tube_service.generate_clip(
+        start_time=clip.start,
+        end_time=clip.end,
     )
 
-    return flask.make_response({
-        "message": "Video cutted.",
-        "filename": f"{video.filename}.mp4"
-    }, 200)
+    response = {
+        "code": CODE_SUCCESS_CUT_VIDEO,
+        "message": MESSAGE_SUCCESS_CUT_VIDEO,
+        "data": {
+            "name": video_tube_service.name,
+            "filename": video_tube_service.filename,
+        },
+    }
+
+    return jsonify(response), 200
 
 
-def download_clip(filename: str) -> flask.Response:
-    file_path = f"{FOLDER_CLIPS_DOCKER}/{filename}"
+@handle_exceptions
+def download_clip(filename: str) -> Response:
+    if not filename:
+        raise ValidationAPIError(
+            code=CODE_NOT_VALID_FIELDS, message=MESSAGE_NOT_VALID_FIELDS
+        )
 
-    return flask.send_file(file_path, as_attachment=True)
+    name = f"{filename}.{CLIP_EXTENSION}"
+    docker_path = os.path.join(FOLDER_CLIPS_DOCKER, name)
+    fs_path = os.path.join(FOLDER_CLIPS, name)
+
+    if not FileService.path_exists(fs_path) and not FileService.path_exists(
+        docker_path
+    ):
+        raise NotFoundAPIError(code=CODE_NOT_FOUND_PATH, message=MESSAGE_NOT_FOUND_PATH)
+
+    file_path = (
+        docker_path
+        if FileService.path_exists(docker_path)
+        else os.path.join(FOLDER_CLIPS, name)
+    )
+
+    return send_file(
+        file_path,
+        mimetype=f"video/{CLIP_EXTENSION}",
+        as_attachment=True,
+        download_name=name,
+    )
 
 
-def remove_clip(filename: str) -> flask.Response:
-    file_path = f"{FOLDER_CLIPS_DOCKER}/{filename}"
+@handle_exceptions
+def remove_clip(filename: str) -> Response:
+    if not filename:
+        raise ValidationAPIError(
+            code=CODE_NOT_VALID_FIELDS, message=MESSAGE_NOT_VALID_FIELDS
+        )
 
-    os.remove(file_path)
+    name = f"{filename}.{CLIP_EXTENSION}"
+    docker_path = os.path.join(FOLDER_CLIPS_DOCKER, name)
+    fs_path = os.path.join(FOLDER_CLIPS, name)
 
-    return flask.make_response({
-        "message": "Clip removed."
-    }, 200)
+    if not FileService.path_exists(fs_path) and not FileService.path_exists(
+        docker_path
+    ):
+        raise NotFoundAPIError(code=CODE_NOT_FOUND_PATH, message=MESSAGE_NOT_FOUND_PATH)
+
+    file_path = (
+        docker_path
+        if FileService.path_exists(docker_path)
+        else os.path.join(FOLDER_CLIPS, name)
+    )
+
+    FileService.remove_file(file_path)
+
+    response = {
+        "code": CODE_SUCCESS_DELETE_CLIP,
+        "message": MESSAGE_SUCCESS_DELETE_CLIP,
+    }
+
+    return jsonify(response), 200

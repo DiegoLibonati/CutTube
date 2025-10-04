@@ -1,24 +1,25 @@
-import { FormClip } from "../../entities/vite-env";
-
-import { Input } from "../../components/Input/Input";
-import { InputRoot } from "../../components/InputRoot/InputRoot";
-import { Label } from "../../components/Label/Label";
-
-import { MainLayout } from "../../layouts/MainLayout/MainLayout";
-
-import { clipVideo } from "../../api/clipVideo";
-import { removeClip } from "../../api/removeClip";
-import { useForm } from "../../hooks/useForm";
-import { useUiStore } from "../../hooks/useUiStore";
 import { AxiosError } from "axios";
+
+import { FormClip } from "@src/entities/forms";
+
+import { Input } from "@src/components/Input/Input";
+import { InputRoot } from "@src/components/InputRoot/InputRoot";
+import { Label } from "@src/components/Label/Label";
+
+import { MainLayout } from "@src/layouts/MainLayout/MainLayout";
+
+import { clipVideo } from "@src/api/clipVideo";
+import { removeClip } from "@src/api/removeClip";
+import { useForm } from "@src/hooks/useForm";
+import { useUiStore } from "@src/hooks/useUiStore";
 
 export const CreateClipView = (): JSX.Element => {
   // Hooks
   const { formState, onInputChange, onResetForm } = useForm<FormClip>({
-    startTime: "",
-    endTime: "",
-    clipTitle: "",
-    youtubeLink: "",
+    start: "",
+    end: "",
+    filename: "",
+    url: "",
   });
   const { onSetLoading, onOpenModal, onSetVideoDownloaded } = useUiStore();
 
@@ -26,81 +27,93 @@ export const CreateClipView = (): JSX.Element => {
   const handleCreateClip: React.FormEventHandler<HTMLFormElement> = async (
     e
   ): Promise<void> => {
-    e.preventDefault();
-    onSetLoading(true);
+    try {
+      e.preventDefault();
+      onSetLoading(true);
 
-    const clipTitle = formState.clipTitle.trim();
-    const endTime = formState.endTime.trim();
-    const startTime = formState.startTime.trim();
-    const youtubeLink = formState.youtubeLink.trim();
+      const clipTitle = formState.filename.trim();
+      const endTime = formState.end.trim();
+      const startTime = formState.start.trim();
+      const youtubeLink = formState.url.trim();
 
-    if (!clipTitle || !youtubeLink || !endTime || !startTime) {
-      onSetLoading(false);
-      onOpenModal({
-        buttonText: "Close",
-        message: "You cannot have empty values",
-        open: true,
-        title: "Error",
-      });
-      onResetForm();
-      return;
-    }
+      if (!clipTitle || !youtubeLink || !endTime || !startTime) {
+        onSetLoading(false);
+        onOpenModal({
+          buttonText: "Close",
+          message: "You cannot have empty values",
+          open: true,
+          title: "Error",
+        });
+        onResetForm();
+        return;
+      }
 
-    const regexTime = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+      const regexTime = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
 
-    if (!regexTime.test(endTime) || !regexTime.test(startTime)) {
-      onSetLoading(false);
-      onOpenModal({
-        buttonText: "Close",
-        message:
-          "The start of the clip and the end of the clip must have a valid format. Example: 00:10:00",
-        open: true,
-        title: "Error",
-      });
-      onResetForm();
-      return;
-    }
+      if (!regexTime.test(endTime) || !regexTime.test(startTime)) {
+        onSetLoading(false);
+        onOpenModal({
+          buttonText: "Close",
+          message:
+            "The start of the clip and the end of the clip must have a valid format. Example: 00:10:00",
+          open: true,
+          title: "Error",
+        });
+        onResetForm();
+        return;
+      }
 
-    const data = await clipVideo(formState);
+      const result = await clipVideo(formState);
 
-    if (data instanceof AxiosError) {
-      onSetLoading(false);
-      onOpenModal({
-        buttonText: "Close",
-        message: data.response!.data.message,
-        open: true,
-        title: "Error",
-      });
-      onResetForm();
-      return;
-    }
+      const data = result.data;
+      const name = data.data.name as string;
+      const filename = data.data.filename as string;
 
-    if (typeof data === "string") {
       const download = new Promise((resolve, reject) => {
-        if (process.env.NODE_ENV === "test") return resolve(void 0);
+        try {
+          if (process.env.NODE_ENV === "test") return resolve(void 0);
 
-        const a = document.createElement("a") as HTMLAnchorElement;
+          const a = document.createElement("a") as HTMLAnchorElement;
 
-        a.href = `/v1/cut/download/${data}`;
-        a.download = `${clipTitle}.mp4`;
+          a.href = `/api/v1/cut/${filename}/download`;
+          a.download = name;
 
-        document.body.appendChild(a);
+          document.body.appendChild(a);
 
-        a.click();
-        a.remove();
+          a.click();
+          a.remove();
 
-        resolve(void 0);
+          resolve(void 0);
+        } catch (e) {
+          reject(e);
+        }
       });
 
       download.then(() => {
         const timeout = setTimeout(async () => {
-          await removeClip(data);
+          await removeClip(filename);
           onSetLoading(false);
           onSetVideoDownloaded(true);
         }, 2000);
 
         return () => clearTimeout(timeout);
       });
+    } catch (e: unknown) {
+      let message = String(e) ?? "U";
+
+      if (e instanceof AxiosError) {
+        message = e?.response?.data?.message;
+      }
+
+      onSetLoading(false);
+      onOpenModal({
+        buttonText: "Close",
+        message: message ?? "Error.",
+        open: true,
+        title: "Error",
+      });
+      onResetForm();
+      return;
     }
   };
 
@@ -122,11 +135,11 @@ export const CreateClipView = (): JSX.Element => {
             ></Label>
             <Input
               id="input-start-time"
-              name="startTime"
+              name="start"
               type="text"
               className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
               placeholder="00:00:00"
-              value={formState.startTime}
+              value={formState.start}
               onChange={onInputChange}
             ></Input>
           </InputRoot>
@@ -139,11 +152,11 @@ export const CreateClipView = (): JSX.Element => {
             ></Label>
             <Input
               id="input-end-time"
-              name="endTime"
+              name="end"
               type="text"
               className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
               placeholder="00:00:00"
-              value={formState.endTime}
+              value={formState.end}
               onChange={onInputChange}
             ></Input>
           </InputRoot>
@@ -157,11 +170,11 @@ export const CreateClipView = (): JSX.Element => {
           ></Label>
           <Input
             id="input-clip-title"
-            name="clipTitle"
+            name="filename"
             type="text"
             className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
             placeholder="My Awesome Clip"
-            value={formState.clipTitle}
+            value={formState.filename}
             onChange={onInputChange}
           ></Input>
         </InputRoot>
@@ -174,11 +187,11 @@ export const CreateClipView = (): JSX.Element => {
           ></Label>
           <Input
             id="input-youtube-link"
-            name="youtubeLink"
+            name="url"
             type="text"
             className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
             placeholder="https://youtube.com/watch?v=12345"
-            value={formState.youtubeLink}
+            value={formState.url}
             onChange={onInputChange}
           ></Input>
         </InputRoot>

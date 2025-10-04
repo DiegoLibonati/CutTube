@@ -1,6 +1,4 @@
-import { GeneralProps } from "../../entities/vite-env";
-
-interface MainLayoutProps extends GeneralProps {}
+import { MainLayoutProps } from "@src/entities/props";
 
 export const MainLayout = ({
   children,

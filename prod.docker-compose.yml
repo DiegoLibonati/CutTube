@@ -1,0 +1,29 @@
+services:
+  cuttube-app:
+    build:
+      context: ./cuttube-app
+      dockerfile: Dockerfile.production
+    restart: always
+    ports:
+      - "80:80"
+    env_file:
+      - ./cuttube-app/.env
+    networks:
+      - net-cuttube
+    depends_on:
+      - cuttube-api
+
+  cuttube-api:
+    build:
+      context: ./cuttube-api
+      dockerfile: Dockerfile.production
+    restart: always
+    expose:
+      - "3000"
+    env_file: ./cuttube-api/.env
+    networks:
+      - net-cuttube
+
+networks:
+  net-cuttube:
+    name: net-cuttube

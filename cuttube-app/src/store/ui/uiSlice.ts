@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { Modal, UiState } from "../../entities/vite-env";
+import { UiState } from "@src/entities/states";
+import { Modal } from "@src/entities/entities";
 
 const uiState: UiState = {
   loading: false,

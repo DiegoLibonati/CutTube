@@ -3,12 +3,12 @@ import user from "@testing-library/user-event";
 
 import { Provider } from "react-redux";
 
-import { Modal } from "./Modal";
+import { Modal } from "@src/components/Modal/Modal";
 
-import { useUiStore } from "../../hooks/useUiStore";
-import { store } from "../../store/store";
+import { useUiStore } from "@src/hooks/useUiStore";
+import { store } from "@src/store/store";
 
-import { getMockModal } from "../../../tests/jest.constants";
+import { getMockModal } from "@tests/jest.constants";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -26,8 +26,8 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-jest.mock("../../hooks/useUiStore.tsx", () => ({
-  ...jest.requireActual("../../hooks/useUiStore.tsx"),
+jest.mock("@src/hooks/useUiStore.tsx", () => ({
+  ...jest.requireActual("@src/hooks/useUiStore.tsx"),
   useUiStore: jest.fn(),
 }));
 

@@ -1,6 +1,6 @@
 import { screen, render } from "@testing-library/react";
 
-import { LoadingView } from "./LoadingView";
+import { LoadingView } from "@src/views/LoadingView/LoadingView";
 
 type RenderComponent = {
   container: HTMLElement;

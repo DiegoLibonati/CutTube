@@ -1,4 +1,4 @@
-import { CutTubeRouter } from "./router/CutTubeRouter";
+import { CutTubeRouter } from "@src/router/CutTubeRouter";
 
 function App(): JSX.Element {
   return <CutTubeRouter></CutTubeRouter>;

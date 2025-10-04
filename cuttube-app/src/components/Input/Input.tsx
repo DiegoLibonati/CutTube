@@ -1,13 +1,4 @@
-import { GeneralProps } from "../../entities/vite-env";
-
-interface InputProps extends GeneralProps {
-  id: string;
-  type: React.HTMLInputTypeAttribute;
-  placeholder: string;
-  value: string;
-  name: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-}
+import { InputProps } from "@src/entities/props";
 
 export const Input = ({
   id,

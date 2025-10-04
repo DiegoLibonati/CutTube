@@ -1,6 +1,4 @@
-import { GeneralProps } from "../../entities/vite-env";
-
-interface InputRootProps extends GeneralProps {}
+import { InputRootProps } from "@src/entities/props";
 
 export const InputRoot = ({
   children,

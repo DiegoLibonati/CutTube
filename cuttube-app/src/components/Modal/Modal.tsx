@@ -1,4 +1,4 @@
-import { useUiStore } from "../../hooks/useUiStore";
+import { useUiStore } from "@src/hooks/useUiStore";
 
 export const Modal = (): JSX.Element => {
   const { modal, onResetModal } = useUiStore();

@@ -1,6 +1,6 @@
 import { screen, render, within } from "@testing-library/react";
 
-import { SideNav } from "./SideNav";
+import { SideNav } from "@src/components/SideNav/SideNav";
 
 type RenderComponent = {
   container: HTMLElement;

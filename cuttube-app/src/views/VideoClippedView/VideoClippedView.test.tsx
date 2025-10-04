@@ -1,9 +1,9 @@
 import { screen, render } from "@testing-library/react";
 import user from "@testing-library/user-event";
 
-import { VideoClippedView } from "./VideoClippedView";
+import { VideoClippedView } from "@src/views/VideoClippedView/VideoClippedView";
 
-import { useUiStore } from "../../hooks/useUiStore";
+import { useUiStore } from "@src/hooks/useUiStore";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -17,8 +17,8 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-jest.mock("../../hooks/useUiStore.tsx", () => ({
-  ...jest.requireActual("../../hooks/useUiStore.tsx"),
+jest.mock("@src/hooks/useUiStore.tsx", () => ({
+  ...jest.requireActual("@src/hooks/useUiStore.tsx"),
   useUiStore: jest.fn(),
 }));
 

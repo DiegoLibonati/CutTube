@@ -7,88 +7,239 @@
 	},
 	"item": [
 		{
-			"name": "Alive",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{APP_URL_LOCAL}}/cut/alive",
-					"host": [
-						"{{APP_URL_LOCAL}}"
-					],
-					"path": [
-						"cut",
-						"alive"
+			"name": "Cut",
+			"item": [
+				{
+					"name": "Alive",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL_LOCAL}}/cut/alive",
+							"host": [
+								"{{APP_URL_LOCAL}}"
+							],
+							"path": [
+								"cut",
+								"alive"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Ok.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{APP_URL_LOCAL}}/cut/alive",
+									"host": [
+										"{{APP_URL_LOCAL}}"
+									],
+									"path": [
+										"cut",
+										"alive"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.11.13"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Oct 2025 01:56:52 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "106"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"author\": \"Diego Libonati\",\n    \"message\": \"I am Alive!\",\n    \"name_bp\": \"Cut\",\n    \"version_bp\": \"2.0.0\"\n}"
+						}
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Download Clip",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{APP_URL_LOCAL}}/cut/download/clip_cf1da321-de57-4b62-8699-06a3df991dc2.mp4",
-					"host": [
-						"{{APP_URL_LOCAL}}"
-					],
-					"path": [
-						"cut",
-						"download",
-						"clip_cf1da321-de57-4b62-8699-06a3df991dc2.mp4"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Clip Video",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"url\": \"https://www.youtube.com/watch?v=joHCGlzxi8U&ab_channel=FeidVEVO\",\r\n    \"start\": \"00:00:10\",\r\n    \"end\": \"00:00:20\",\r\n    \"cut_name\": \"clip\"\r\n}"
 				},
-				"url": {
-					"raw": "{{APP_URL_LOCAL}}/cut/clip_video",
-					"host": [
-						"{{APP_URL_LOCAL}}"
-					],
-					"path": [
-						"cut",
-						"clip_video"
+				{
+					"name": "Clip Video",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\": \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\",\r\n    \"start\": \"00:00:10\",\r\n    \"end\": \"00:00:20\"\r\n}"
+						},
+						"url": {
+							"raw": "{{APP_URL_LOCAL}}/cut/clipazo/clip",
+							"host": [
+								"{{APP_URL_LOCAL}}"
+							],
+							"path": [
+								"cut",
+								"clipazo",
+								"clip"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Ok.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"url\": \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\",\r\n    \"start\": \"00:00:10\",\r\n    \"end\": \"00:00:20\"\r\n}"
+								},
+								"url": {
+									"raw": "{{APP_URL_LOCAL}}/cut/clipazo/clip",
+									"host": [
+										"{{APP_URL_LOCAL}}"
+									],
+									"path": [
+										"cut",
+										"clipazo",
+										"clip"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.11.13"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Oct 2025 02:03:10 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "208"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": \"SUCCESS_CUT_VIDEO\",\n    \"data\": {\n        \"filename\": \"clipazo_cbbf237b-acd1-470a-a19b-9a31ff1d385d\",\n        \"name\": \"clipazo_cbbf237b-acd1-470a-a19b-9a31ff1d385d.mp4\"\n    },\n    \"message\": \"Video cutted.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Download Clip",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL_LOCAL}}/cut/clipazo_cbbf237b-acd1-470a-a19b-9a31ff1d385d/download",
+							"host": [
+								"{{APP_URL_LOCAL}}"
+							],
+							"path": [
+								"cut",
+								"clipazo_cbbf237b-acd1-470a-a19b-9a31ff1d385d",
+								"download"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Clip",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL_LOCAL}}/cut/clipazo_cbbf237b-acd1-470a-a19b-9a31ff1d385d",
+							"host": [
+								"{{APP_URL_LOCAL}}"
+							],
+							"path": [
+								"cut",
+								"clipazo_cbbf237b-acd1-470a-a19b-9a31ff1d385d"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Ok.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{APP_URL_LOCAL}}/cut/clipazo_cbbf237b-acd1-470a-a19b-9a31ff1d385d",
+									"host": [
+										"{{APP_URL_LOCAL}}"
+									],
+									"path": [
+										"cut",
+										"clipazo_cbbf237b-acd1-470a-a19b-9a31ff1d385d"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.11.13"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Oct 2025 02:06:17 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "66"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": \"SUCCESS_DELETE_CLIP\",\n    \"message\": \"Clip deleted.\"\n}"
+						}
 					]
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "Remove Clip",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{APP_URL_LOCAL}}/cut/remove/clip_cf1da321-de57-4b62-8699-06a3df991dc2.mp4",
-					"host": [
-						"{{APP_URL_LOCAL}}"
-					],
-					"path": [
-						"cut",
-						"remove",
-						"clip_cf1da321-de57-4b62-8699-06a3df991dc2.mp4"
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [
@@ -97,6 +248,7 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -107,6 +259,7 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -116,8 +269,7 @@
 	"variable": [
 		{
 			"key": "APP_URL_LOCAL",
-			"value": "http://localhost:5000/v1",
-			"type": "string"
+			"value": "http://localhost:5000/v1"
 		}
 	]
 }

@@ -1,13 +1,11 @@
 import { screen, render } from "@testing-library/react";
 
-import { Label } from "./Label";
+import { LabelProps } from "@src/entities/props";
+
+import { Label } from "@src/components/Label/Label";
 
 type RenderComponent = {
-  props: {
-    labelText: string;
-    className: string;
-    htmlFor: string;
-  };
+  props: LabelProps;
   container: HTMLElement;
 };
 
@@ -41,7 +39,7 @@ describe("Label.tsx", () => {
 
       expect(label).toBeInTheDocument();
       expect(label).toHaveAttribute("for", props.htmlFor);
-      expect(label).toHaveClass(props.className);
+      expect(label).toHaveClass(props.className!);
     });
   });
 });

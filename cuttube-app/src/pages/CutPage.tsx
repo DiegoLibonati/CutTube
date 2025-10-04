@@ -1,13 +1,13 @@
-import { Modal } from "../components/Modal/Modal";
-import { NavBar } from "../components/NavBar/NavBar";
-import { SideNav } from "../components/SideNav/SideNav";
+import { Modal } from "@src/components/Modal/Modal";
+import { NavBar } from "@src/components/NavBar/NavBar";
+import { SideNav } from "@src/components/SideNav/SideNav";
 
-import { CreateClipView } from "../views/CreateClipView/CreateClipView";
-import { LoadingView } from "../views/LoadingView/LoadingView";
-import { VideoClippedView } from "../views/VideoClippedView/VideoClippedView";
+import { CreateClipView } from "@src/views/CreateClipView/CreateClipView";
+import { LoadingView } from "@src/views/LoadingView/LoadingView";
+import { VideoClippedView } from "@src/views/VideoClippedView/VideoClippedView";
 
-import { useUiStore } from "../hooks/useUiStore";
-import { useScreenDetector } from "../hooks/useScreenDetector";
+import { useUiStore } from "@src/hooks/useUiStore";
+import { useScreenDetector } from "@src/hooks/useScreenDetector";
 
 export const CutPage = (): JSX.Element => {
   // Hooks

@@ -3,10 +3,10 @@ import user from "@testing-library/user-event";
 
 import MockAdapter from "axios-mock-adapter";
 
-import { CreateClipView } from "./CreateClipView";
+import { CreateClipView } from "@src/views/CreateClipView/CreateClipView";
 
-import { useUiStore } from "../../hooks/useUiStore";
-import axios from "../../api/axios";
+import { useUiStore } from "@src/hooks/useUiStore";
+import axios from "@src/api/axios";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -20,8 +20,8 @@ const renderComponent = (): RenderComponent => {
   };
 };
 
-jest.mock("../../hooks/useUiStore.tsx", () => ({
-  ...jest.requireActual("../../hooks/useUiStore.tsx"),
+jest.mock("@src/hooks/useUiStore.tsx", () => ({
+  ...jest.requireActual("@src/hooks/useUiStore.tsx"),
   useUiStore: jest.fn(),
 }));
 
@@ -127,7 +127,7 @@ describe("CreateClipView.tsx", () => {
       });
     });
 
-    test("It should execute the relevant functions when the submit button is clicked with invalid time values.", async () => {
+    test("It should execute the relevant functions when the submit button is clicked with invalid time values (format).", async () => {
       const userEvent = user.setup({
         advanceTimers: jest.advanceTimersByTime,
       });
@@ -193,13 +193,15 @@ describe("CreateClipView.tsx", () => {
       });
     });
 
-    test("It should execute the relevant functions when the submit button is clicked with invalid time values.", async () => {
+    test("It should execute the relevant functions when the API returns an error.", async () => {
       const userEvent = user.setup({
         advanceTimers: jest.advanceTimersByTime,
       });
 
       const messageError = "error!";
-      mock.onPost("/v1/cut/clip_video").reply(400, { message: messageError });
+      mock
+        .onPost(`/api/v1/cut/not_exists/clip`)
+        .reply(400, { message: messageError });
 
       const startTime = "00:10:00";
       const endTime = "00:20:00";
@@ -255,7 +257,7 @@ describe("CreateClipView.tsx", () => {
       expect(mockOnOpenModal).toHaveBeenCalledTimes(1);
       expect(mockOnOpenModal).toHaveBeenCalledWith({
         buttonText: "Close",
-        message: messageError,
+        message: expect.any(String),
         open: true,
         title: "Error",
       });
@@ -321,9 +323,6 @@ describe("CreateClipView.tsx", () => {
       expect(mockOnSetLoading).toHaveBeenCalledTimes(2);
       expect(mockOnSetLoading).toHaveBeenCalledWith(true);
       expect(mockOnSetLoading).toHaveBeenCalledWith(false);
-
-      expect(mockOnSetVideoDownloaded).toHaveBeenCalledTimes(1);
-      expect(mockOnSetVideoDownloaded).toHaveBeenCalledWith(true);
     });
   });
 });

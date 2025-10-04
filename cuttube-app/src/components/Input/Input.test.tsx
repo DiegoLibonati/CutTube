@@ -1,18 +1,14 @@
 import { screen, render } from "@testing-library/react";
 import user from "@testing-library/user-event";
 
-import { Input } from "./Input";
+import { InputProps } from "@src/entities/props";
+
+import { Input } from "@src/components/Input/Input";
 
 type RenderComponent = {
   props: {
-    id: string;
-    type: React.HTMLInputTypeAttribute;
-    className: string;
-    placeholder: string;
-    value: string;
-    name: string;
-    mockOnChange: jest.Mock;
-  };
+    onChange: jest.Mock;
+  } & InputProps;
   container: HTMLElement;
 };
 
@@ -24,7 +20,7 @@ const renderComponent = (): RenderComponent => {
     placeholder: "placeholder",
     value: "",
     name: "username",
-    mockOnChange: jest.fn(),
+    onChange: jest.fn(),
   };
 
   const { container } = render(
@@ -35,7 +31,7 @@ const renderComponent = (): RenderComponent => {
       type={props.type}
       value={props.value}
       className={props.className}
-      onChange={props.mockOnChange}
+      onChange={props.onChange}
     ></Input>
   );
 
@@ -57,7 +53,7 @@ describe("Input.tsx", () => {
       expect(input).toHaveAttribute("placeholder", props.placeholder);
       expect(input).toHaveAttribute("type", props.type);
       expect(input).toHaveValue(props.value);
-      expect(input).toHaveClass(props.className);
+      expect(input).toHaveClass(props.className!);
     });
 
     test("It must execute the onChange function when you write something to the input.", async () => {
@@ -73,7 +69,7 @@ describe("Input.tsx", () => {
       await user.click(input);
       await user.keyboard(inputValue);
 
-      expect(props.mockOnChange).toHaveBeenCalledTimes(1);
+      expect(props.onChange).toHaveBeenCalledTimes(1);
     });
   });
 });

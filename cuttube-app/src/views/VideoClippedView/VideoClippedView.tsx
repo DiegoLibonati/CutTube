@@ -2,9 +2,9 @@ import { BiCheckCircle } from "react-icons/bi";
 import { PiPencil } from "react-icons/pi";
 import { SlStar } from "react-icons/sl";
 
-import { MainLayout } from "../../layouts/MainLayout/MainLayout";
+import { MainLayout } from "@src/layouts/MainLayout/MainLayout";
 
-import { useUiStore } from "../../hooks/useUiStore";
+import { useUiStore } from "@src/hooks/useUiStore";
 
 export const VideoClippedView = (): JSX.Element => {
   const { onSetVideoDownloaded } = useUiStore();
@@ -17,16 +17,14 @@ export const VideoClippedView = (): JSX.Element => {
     <MainLayout className="flex flex-col items-center justify-center">
       <div className="relative">
         <SlStar
-          className="absolute -top-18 -left-12"
-          fontSize={32}
+          className="absolute text-[2rem] -top-18 -left-12"
           fill="white"
         ></SlStar>
         <PiPencil
-          fontSize={64}
           fill="white"
-          className="absolute -top-12 left-28"
+          className="absolute text-[4rem] -top-12 left-28"
         ></PiPencil>
-        <BiCheckCircle fontSize={128} fill="white"></BiCheckCircle>
+        <BiCheckCircle fill="white" className="text-[8rem]"></BiCheckCircle>
       </div>
 
       <h2 className="text-white text-xl font-semibold mt-4">

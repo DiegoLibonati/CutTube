@@ -1,22 +1,15 @@
-import axios from "./axios";
+import { AxiosResponse } from "axios";
+import axios from "@src/api/axios";
 
-import { FormClip } from "../entities/vite-env";
+import { FormClip } from "@src/entities/forms";
 
-export const clipVideo = async (form: FormClip): Promise<string | unknown> => {
-  try {
-    const request = await axios.post(
-      "/v1/cut/clip_video",
-      JSON.stringify({
-        url: form.youtubeLink,
-        start: form.startTime,
-        end: form.endTime,
-        cut_name: form.clipTitle,
-      })
-    );
-
-    const filename = request.data.filename;
-    return filename;
-  } catch (e: unknown) {
-    return e;
-  }
+export const clipVideo = async (form: FormClip): Promise<AxiosResponse> => {
+  return await axios.post(
+    `/${form.filename}/clip`,
+    JSON.stringify({
+      url: form.url,
+      start: form.start,
+      end: form.end,
+    })
+  );
 };

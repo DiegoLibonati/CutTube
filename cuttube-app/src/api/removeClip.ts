@@ -1,15 +1,7 @@
-import axios from "./axios";
+import { AxiosResponse } from "axios";
 
-export const removeClip = async (
-  filename: string
-): Promise<string | unknown> => {
-  try {
-    const request = await axios.delete(`/v1/cut/remove/${filename}`);
+import axios from "@src/api/axios";
 
-    const message = request.data.message;
-
-    return message;
-  } catch (e) {
-    return e;
-  }
+export const removeClip = async (filename: string): Promise<AxiosResponse> => {
+  return await axios.delete(`/${filename}`);
 };

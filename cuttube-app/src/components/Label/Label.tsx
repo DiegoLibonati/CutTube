@@ -1,9 +1,4 @@
-import { GeneralProps } from "../../entities/vite-env";
-
-interface LabelProps extends GeneralProps {
-  labelText: string;
-  htmlFor: string;
-}
+import { LabelProps } from "@src/entities/props";
 
 export const Label = ({
   labelText,

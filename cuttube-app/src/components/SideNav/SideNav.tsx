@@ -8,7 +8,7 @@ export const SideNav = (): JSX.Element => {
         type="button"
         aria-label="create clip"
       >
-        <BsFilm fontSize={18} className="fill-white"></BsFilm>
+        <BsFilm className="fill-white text-lg"></BsFilm>
         <p className="ml-2 text-white font-semibold">Create clip</p>
       </button>
     </aside>

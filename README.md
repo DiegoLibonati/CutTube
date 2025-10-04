@@ -1,5 +1,11 @@
 # CutTube
 
+## Educational Purpose
+
+This project was created primarily for **educational and learning purposes**.  
+While it is well-structured and could technically be used in production, it is **not intended for commercialization**.  
+The main goal is to explore and demonstrate best practices, patterns, and technologies in software development.
+
 ## Getting Started
 
 1. Clone the repository with `git clone "repository link"`
@@ -9,18 +15,34 @@
 
 NOTE: You have to be standing in the folder containing the: `dev.docker-compose.yml` and you need to install `Docker Desktop` if you are in Windows.
 
+### Pre-Commit for Development (Python)
+
+NOTE: Install **pre-commit** inside: `cuttube-api` folder.
+
+1. Once you're inside the virtual environment, let's install the hooks specified in the pre-commit. Execute: `pre-commit install`
+2. Now every time you try to commit, the pre-commit lint will run. If you want to do it manually, you can run the command: `pre-commit run --all-files`
+
 ## Description
 
 I made a web application that allows to clip youtube videos through a start and end time, passing a custom clip name and a link from video to clip.
 
 ## Technologies used
 
-1. React JS
-2. Flask
-3. Python
-4. Typescript
-5. Tailwind CSS
-6. Docker
+1. React
+2. Typescript
+3. Tailwind CSS
+4. HTML5
+5. Vite
+
+BackEnd:
+
+1. Python -> Flask
+
+Deploy:
+
+1. Docker
+2. Nginx
+3. Gunicorn
 
 ## Libraries used
 
@@ -41,15 +63,15 @@ I made a web application that allows to clip youtube videos through a start and 
 #### devDependencies
 
 ```
-"@types/jest": "^29.5.13"
-"@types/node": "^20.10.6"
-"@types/react": "^18.3.11"
-"@types/react-dom": "^18.3.1"
 "@testing-library/dom": "^10.4.0"
 "@testing-library/jest-dom": "^6.6.2"
 "@testing-library/react": "^16.0.1"
 "@testing-library/user-event": "^14.5.2"
-"@vitejs/plugin-react": "^4.2.1"
+"@types/jest": "^29.5.13"
+"@types/node": "^20.10.6"
+"@types/react": "^18.3.11"
+"@types/react-dom": "^18.3.1"
+"@vitejs/plugin-react": "^5.0.2"
 "@typescript-eslint/parser": "^7.2.0"
 "@typescript-eslint/eslint-plugin": "^7.2.0"
 "axios-mock-adapter": "^2.1.0"
@@ -62,8 +84,9 @@ I made a web application that allows to clip youtube videos through a start and 
 "postcss": "^8.4.37"
 "tailwindcss": "^3.4.1"
 "ts-jest": "^29.2.5"
+"ts-node": "^10.9.2"
 "typescript": "^5.2.2"
-"vite": "^5.2.0"
+"vite": "^7.1.7"
 ```
 
 ### Backend
@@ -74,13 +97,16 @@ I made a web application that allows to clip youtube videos through a start and 
 pytubefix==8.8.2
 flask==3.1.0
 moviepy==2.1.1
+pydantic==2.11.9
+gunicorn==23.0.0
+pre-commit==4.3.0
 ```
 
 #### Requirements.test.txt
 
 ```
-pytest
-pytest-env
+pytest==8.4.2
+pytest-env==1.1.5
 ```
 
 ## Portfolio Link
@@ -108,45 +134,98 @@ https://github.com/DiegoLibonati/CutTube/assets/99032604/44d38dd8-bf66-42b0-9240
 6. Execute: `pytest --log-cli-level=INFO`
 
 ## Documentation API
- 
+
 ### **Version**
 
 ```
 API VERSION: 0.0.2
-README UPDATED: 22/12/2024
+README UPDATED: 03/10/2024
 AUTHOR: Diego Libonati
 ```
 
 ### **Env Keys**
 
+1. `TZ`: Refers to the timezone setting for the container.
+2. `VITE_API_URL`: Refers to the base URL of the backend API the frontend consumes.
+3. `HOST`: Refers to the network interface where the backend API listens (e.g., 0.0.0.0 to allow external connections).
+4. `PORT`: Refers to the port on which the backend API is exposed.
+5. `DEBUG_MODE`: Refers to enabling or disabling debug mode for backend
+6. `WORK_DIR`: Refers to the docker working path.
+
 ```
-THERE IS NOT ENV KEYS.
+# Backend
+
+TZ=America/Argentina/Buenos_Aires
+
+WORK_DIR=/home/app
+
+HOST=0.0.0.0
+PORT=5050
+DEBUG_MODE=true
+
+# Frontend
+
+VITE_API_URL=http://host.docker.internal:5000
 ```
- 
-## **Cut Blueprint**
+
+### **CutTube Endpoints API**
 
 - **Endpoint Name**: Alive
-- **Endpoint Route**: /v1/cut/alive
+- **Endpoint Route**: /api/v1/cut/alive
 - **Endpoint Method**: GET
 - **Endpoint Fn**: This endpoint returns the version, author and name of the api.
 
------
+---
 
 - **Endpoint Name**: Clip Video
-- **Endpoint Route**: /v1/cut/clip_video
+- **Endpoint Route**: /api/v1/cut/<filename>/clip
 - **Endpoint Method**: POST
 - **Endpoint Fn**: This endpoint downloads the video from youtube, obtains the best stream based on the quality and clips based on the parameters entered through the body.
+- **Endpoint Params**: 
 
------
+```ts
+{
+  filename: string;
+}
+```
 
-- **Endpoint Name**: Download Video
-- **Endpoint Route**: /v1/cut/download/<-filename->
+- **Endpoint Body**:
+
+```ts
+{
+    url: string;
+    start: string;
+    end: string;
+}
+```
+
+
+---
+
+- **Endpoint Name**: Download Clip
+- **Endpoint Route**: /api/v1/cut/<filename>/download
 - **Endpoint Method**: GET
 - **Endpoint Fn**: This endpoint downloads the clip to the user's browser once the clip has been clicked and exists on the server. The name of the file with the extension .mp4 is entered via the URL.
+- **Endpoint Params**: 
 
------
+```ts
+{
+  filename: string;
+}
+```
 
-- **Endpoint Name**: Alive
-- **Endpoint Route**: /v1/cut/remove/<-filename->
+---
+
+- **Endpoint Name**: Delete Clip
+- **Endpoint Route**: /api/v1/cut/<filename>
 - **Endpoint Method**: DELETE
 - **Endpoint Fn**: This endpoint removes from the server if it exists the clip that is entered via URL based on its name and its .mp4 extension.
+- **Endpoint Params**: 
+
+```ts
+{
+  filename: string;
+}
+```
+
+## Known Issues

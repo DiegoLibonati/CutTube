@@ -1,6 +1,6 @@
 import { screen, render } from "@testing-library/react";
 
-import { MainLayout } from "./MainLayout";
+import { MainLayout } from "@src/layouts/MainLayout/MainLayout";
 
 type RenderComponent = {
   container: HTMLElement;
