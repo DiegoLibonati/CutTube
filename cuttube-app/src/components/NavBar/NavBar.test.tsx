@@ -19,7 +19,7 @@ describe("NavBar.tsx", () => {
     test("It must render the header.", () => {
       const { container } = renderComponent();
 
-      const header = container.querySelector("header") as HTMLElement;
+      const header = container.querySelector<HTMLElement>("header");
       const headerChild = header?.firstChild as HTMLDivElement;
 
       expect(header).toBeInTheDocument();

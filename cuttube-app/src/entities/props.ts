@@ -1,9 +1,9 @@
-export interface GeneralProps {
+export interface DefaultProps {
   children?: React.ReactNode;
   className?: string;
 }
 
-export interface InputProps extends GeneralProps {
+export interface InputProps extends DefaultProps {
   id: string;
   type: React.HTMLInputTypeAttribute;
   placeholder: string;
@@ -12,11 +12,11 @@ export interface InputProps extends GeneralProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export interface InputRootProps extends GeneralProps {}
+export interface InputRootProps extends DefaultProps {}
 
-export interface LabelProps extends GeneralProps {
+export interface LabelProps extends DefaultProps {
   labelText: string;
   htmlFor: string;
 }
 
-export interface MainLayoutProps extends GeneralProps {}
+export interface MainLayoutProps extends DefaultProps {}

@@ -6,7 +6,8 @@ import MockAdapter from "axios-mock-adapter";
 import { CreateClipView } from "@src/views/CreateClipView/CreateClipView";
 
 import { useUiStore } from "@src/hooks/useUiStore";
-import axios from "@src/api/axios";
+
+import { cutTubeApi } from "@src/api/cutTube";
 
 type RenderComponent = {
   container: HTMLElement;
@@ -47,7 +48,7 @@ describe("CreateClipView.tsx", () => {
       jest.useRealTimers();
     });
 
-    const mock = new MockAdapter(axios);
+    const mock = new MockAdapter(cutTubeApi);
 
     test("It must render the main.", () => {
       renderComponent();

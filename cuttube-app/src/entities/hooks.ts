@@ -1,4 +1,4 @@
-import { Modal } from "@src/entities/entities";
+import { Modal } from "@src/entities/app";
 
 export type UseForm<T> = {
   formState: T;
@@ -12,7 +12,7 @@ export type UseScreenDetector = {
   isDesktop: boolean;
 };
 
-type UseUiStore = {
+export type UseUiStore = {
   modal: Modal;
   videoDownloaded: boolean;
   loading: boolean;

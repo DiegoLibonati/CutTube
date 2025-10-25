@@ -6,7 +6,8 @@ import { Provider } from "react-redux";
 import { Modal } from "@src/components/Modal/Modal";
 
 import { useUiStore } from "@src/hooks/useUiStore";
-import { store } from "@src/store/store";
+
+import { store } from "@src/app/store";
 
 import { getMockModal } from "@tests/jest.constants";
 

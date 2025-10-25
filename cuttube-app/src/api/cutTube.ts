@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default axios.create({
+export const cutTubeApi = axios.create({
   baseURL: "/api/v1/cut",
   headers: {
     "Access-Control-Allow-Origin": "*",

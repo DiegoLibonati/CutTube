@@ -19,7 +19,7 @@ describe("SideNav.tsx", () => {
     test("It must render the sideNav with the relevant options.", () => {
       const { container } = renderComponent();
 
-      const aside = container.querySelector("aside") as HTMLElement;
+      const aside = container.querySelector<HTMLElement>("aside");
       const btnCreateClip = screen.getByRole("button", {
         name: /create clip/i,
       });

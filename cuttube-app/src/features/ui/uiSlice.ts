@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { UiState } from "@src/entities/states";
-import { Modal } from "@src/entities/entities";
+import { Modal } from "@src/entities/app";
 
 const uiState: UiState = {
   loading: false,

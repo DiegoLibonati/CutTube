@@ -27,7 +27,7 @@ describe("LoadingView.tsx", () => {
     test("It must render the loader.", () => {
       const { container } = renderComponent();
 
-      const loader = container.querySelector(".loader") as HTMLDivElement;
+      const loader = container.querySelector<HTMLDivElement>(".loader");
 
       expect(loader).toBeInTheDocument();
       expect(loader).toHaveClass("loader");

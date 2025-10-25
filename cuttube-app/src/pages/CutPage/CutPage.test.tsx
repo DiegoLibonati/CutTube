@@ -2,11 +2,12 @@ import { screen, render } from "@testing-library/react";
 
 import { Provider } from "react-redux";
 
-import { CutPage } from "@src/pages/CutPage";
+import { CutPage } from "@src/pages/CutPage/CutPage";
 
 import { useUiStore } from "@src/hooks/useUiStore";
 import { useScreenDetector } from "@src/hooks/useScreenDetector";
-import { store } from "@src/store/store";
+
+import { store } from "@src/app/store";
 
 import { getMockModal } from "@tests/jest.constants";
 
@@ -66,8 +67,8 @@ describe("CutPage.tsx", () => {
     test("It should render the SideNav and not the NavBar.", () => {
       const { container } = renderComponent();
 
-      const sideNav = container.querySelector("aside");
-      const navBar = container.querySelector("header");
+      const sideNav = container.querySelector<HTMLElement>("aside");
+      const navBar = container.querySelector<HTMLElement>("header");
 
       expect(sideNav).toBeInTheDocument();
       expect(navBar).not.toBeInTheDocument();
@@ -104,8 +105,8 @@ describe("CutPage.tsx", () => {
     test("It should render the NavBar and not the SideNav.", () => {
       const { container } = renderComponent();
 
-      const sideNav = container.querySelector("aside");
-      const navBar = container.querySelector("header");
+      const sideNav = container.querySelector<HTMLElement>("aside");
+      const navBar = container.querySelector<HTMLElement>("header");
 
       expect(sideNav).not.toBeInTheDocument();
       expect(navBar).toBeInTheDocument();

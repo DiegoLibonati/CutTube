@@ -8,8 +8,9 @@ import { Label } from "@src/components/Label/Label";
 
 import { MainLayout } from "@src/layouts/MainLayout/MainLayout";
 
-import { clipVideo } from "@src/api/clipVideo";
-import { removeClip } from "@src/api/removeClip";
+import { clipVideo } from "@src/api/post/clipVideo";
+import { removeClip } from "@src/api/delete/removeClip";
+
 import { useForm } from "@src/hooks/useForm";
 import { useUiStore } from "@src/hooks/useUiStore";
 
@@ -65,9 +66,8 @@ export const CreateClipView = (): JSX.Element => {
 
       const result = await clipVideo(formState);
 
-      const data = result.data;
-      const name = data.data.name as string;
-      const filename = data.data.filename as string;
+      const name = result.name;
+      const filename = result.filename;
 
       const download = new Promise((resolve, reject) => {
         try {

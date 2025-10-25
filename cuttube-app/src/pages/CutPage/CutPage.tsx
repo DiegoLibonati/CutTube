@@ -10,7 +10,6 @@ import { useUiStore } from "@src/hooks/useUiStore";
 import { useScreenDetector } from "@src/hooks/useScreenDetector";
 
 export const CutPage = (): JSX.Element => {
-  // Hooks
   const { isTablet, isDesktop } = useScreenDetector();
   const { modal, loading, videoDownloaded } = useUiStore();
 

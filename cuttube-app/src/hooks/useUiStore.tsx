@@ -1,4 +1,4 @@
-import { Modal } from "@src/entities/entities";
+import { Modal } from "@src/entities/app";
 import { UseUiStore } from "@src/entities/hooks";
 
 import {
@@ -6,8 +6,9 @@ import {
   setLoading,
   setModal,
   setVideoDownloaded,
-} from "@src/store/ui/uiSlice";
-import { useAppDispatch, useAppSelector } from "@src/constants/redux";
+} from "@src/features/ui/uiSlice";
+
+import { useAppDispatch, useAppSelector } from "@src/app/hooks";
 
 export const useUiStore = (): UseUiStore => {
   const { modal, loading, videoDownloaded } = useAppSelector(
