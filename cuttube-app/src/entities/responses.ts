@@ -1,4 +1,13 @@
 export type ClipVideoResponse = {
-  name: string;
-  filename: string;
+  code: string;
+  message: string;
+  data: {
+    name: string;
+    filename: string;
+  };
+};
+
+export type RemoveClipResponse = {
+  code: string;
+  message: string;
 };

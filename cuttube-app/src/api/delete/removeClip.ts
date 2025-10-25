@@ -1,10 +1,16 @@
+import { RemoveClipResponse } from "@src/entities/responses";
+
 import { cutTubeApi } from "@src/api/cutTube";
 
-export const removeClip = async (filename: string): Promise<void> => {
+export const removeClip = async (
+  filename: string
+): Promise<RemoveClipResponse> => {
   try {
-    await cutTubeApi.delete(`/${filename}`);
+    const response = await cutTubeApi.delete(`/${filename}`);
 
-    return;
+    const data: RemoveClipResponse = await response.data;
+
+    return data;
   } catch (e) {
     console.log("Error remove clip: ", e);
     throw Error(`Error remove clip: ${e}`);

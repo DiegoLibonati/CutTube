@@ -64,10 +64,10 @@ export const CreateClipView = (): JSX.Element => {
         return;
       }
 
-      const result = await clipVideo(formState);
+      const response = await clipVideo(formState);
 
-      const name = result.name;
-      const filename = result.filename;
+      const name = response.data.name;
+      const filename = response.data.filename;
 
       const download = new Promise((resolve, reject) => {
         try {

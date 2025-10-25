@@ -14,7 +14,7 @@ export const clipVideo = async (form: FormClip): Promise<ClipVideoResponse> => {
       })
     );
 
-    const data = response.data.data;
+    const data: ClipVideoResponse = await response.data;
 
     return data;
   } catch (e) {
