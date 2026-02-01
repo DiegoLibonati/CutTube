@@ -4,6 +4,7 @@ from flask import Flask
 
 from config.logger_config import setup_logger
 from src.blueprints.routes import register_routes
+from src.utils.exceptions import BaseAPIError
 
 logger = setup_logger()
 
@@ -13,6 +14,10 @@ def create_app(config_name="development") -> None:
 
     config_module = importlib.import_module(f"config.{config_name}_config")
     app.config.from_object(config_module.__dict__[f"{config_name.capitalize()}Config"])
+
+    @app.errorhandler(BaseAPIError)
+    def handle_api_error(error: BaseAPIError):
+        return error.flask_response()
 
     register_routes(app)
     logger.info("Routes initialized successfully.")

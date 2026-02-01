@@ -96,7 +96,7 @@ Deploy:
 
 ```
 pytubefix==8.8.2
-flask==3.1.0
+flask==3.1.2
 moviepy==2.1.1
 pydantic==2.11.9
 gunicorn==23.0.0
@@ -108,6 +108,12 @@ pre-commit==4.3.0
 ```
 pytest==8.4.2
 pytest-env==1.1.5
+pytest-cov==4.1.0
+pytest-timeout==2.3.1
+pytest-cov==4.1.0
+pytest-xdist==3.5.0
+
+pytest-timeout==2.3.1
 ```
 
 ## Portfolio Link
@@ -140,7 +146,7 @@ https://github.com/DiegoLibonati/CutTube/assets/99032604/44d38dd8-bf66-42b0-9240
 
 ```
 API VERSION: 0.0.2
-README UPDATED: 03/10/2024
+README UPDATED: 01/02/2026
 AUTHOR: Diego Libonati
 ```
 

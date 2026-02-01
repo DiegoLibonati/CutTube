@@ -1,90 +1,62 @@
-import logging
-import shutil
-from test.constants import (
-    ROOT_PATH_YT_FOLDERS,
-    TEST_BODY_CLIP,
-    TEST_STREAMS,
-    TEST_VIDEOTUBE_MOCK,
-)
+import os
+from pathlib import Path
+from typing import Generator
 
 import pytest
-from flask import Blueprint, Flask, Response, jsonify
+from flask import Flask
 from flask.testing import FlaskClient
-from pydantic import BaseModel
-from pytubefix import Stream
+from pytubefix import Stream, YouTube
 
 from app import create_app
-from src.services.file_service import FileService
-from src.utils.error_handler import handle_exceptions
-from src.utils.exceptions import ValidationAPIError
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+ROOT_PATH_TEST = Path(__file__).resolve().parent
+ROOT_PATH_YT_FOLDERS = os.path.join(ROOT_PATH_TEST, "yt_folders")
+CLIPS_FOLDER = os.path.join(ROOT_PATH_YT_FOLDERS, "clips")
 
 
-@pytest.fixture(scope="session")
-def flask_app() -> Flask:
-    app = create_app("testing")
-    return app
+@pytest.fixture(scope="function")
+def app() -> Generator[Flask, None, None]:
+    application = create_app("testing")
+    application.config["TESTING"] = True
+
+    with application.app_context():
+        yield application
 
 
-@pytest.fixture(scope="session")
-def flask_client(flask_app: Flask) -> FlaskClient:
-    return flask_app.test_client()
-
-
-@pytest.fixture
-def error_app() -> FlaskClient:
-    app = Flask(__name__)
-    bp = Blueprint("test_errors", __name__)
-
-    @bp.route("/base-api-error")
-    @handle_exceptions
-    def raise_base_api_error() -> None:
-        raise ValidationAPIError(message="Custom API error")
-
-    @bp.route("/pydantic-error")
-    @handle_exceptions
-    def raise_pydantic_error() -> Response:
-        class Model(BaseModel):
-            x: int
-
-        Model(x="not-an-int")
-        return jsonify({"ok": True})
-
-    @bp.route("/generic-error")
-    @handle_exceptions
-    def raise_generic_error() -> None:
-        raise RuntimeError("Unexpected failure")
-
-    @bp.route("/no-error")
-    @handle_exceptions
-    def no_error() -> Response:
-        return jsonify({"ok": True})
-
-    app.register_blueprint(bp)
+@pytest.fixture(scope="function")
+def client(app: Flask) -> FlaskClient:
     return app.test_client()
 
 
-@pytest.fixture(scope="session")
-def videotube_mock() -> dict[str, str]:
-    return TEST_VIDEOTUBE_MOCK
+# ============================================================================
+# Test data fixtures
+# ============================================================================
 
 
-@pytest.fixture(scope="session")
-def streams_mock() -> list[Stream]:
-    return TEST_STREAMS
+@pytest.fixture
+def sample_clip_filename() -> str:
+    return "test_filename"
 
 
-@pytest.fixture(scope="session")
-def body_clip() -> dict[str, str]:
-    return TEST_BODY_CLIP
+@pytest.fixture
+def sample_videotube(sample_clip_filename: str) -> dict[str, str]:
+    return {
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "filename": sample_clip_filename,
+        "folder_download": f"{ROOT_PATH_YT_FOLDERS}/download",
+        "folder_clips": f"{ROOT_PATH_YT_FOLDERS}/clips",
+    }
 
 
-@pytest.fixture(scope="session", autouse=True)
-def cleanup_dir_after_tests():
-    yield
+@pytest.fixture
+def sample_body_clip() -> dict[str, str]:
+    return {
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "start": "00:00:10",
+        "end": "00:00:20",
+    }
 
-    if FileService.path_exists(ROOT_PATH_YT_FOLDERS):
-        shutil.rmtree(ROOT_PATH_YT_FOLDERS, ignore_errors=True)
+
+@pytest.fixture
+def sample_streams(sample_videotube: dict[str, str]) -> list[Stream]:
+    return YouTube(sample_videotube.get("url")).streams

@@ -1,46 +1,31 @@
 from functools import wraps
-from typing import Any, Callable, TypeVar, cast
+from typing import Callable, TypeVar
 
-from flask import Response, jsonify
 from pydantic import ValidationError
+from typing_extensions import ParamSpec
 
 from config.logger_config import setup_logger
-from src.constants.codes import CODE_ERROR_GENERIC, CODE_ERROR_PYDANTIC
-from src.constants.messages import MESSAGE_ERROR_GENERIC, MESSAGE_ERROR_PYDANTIC
-from src.utils.exceptions import BaseAPIError, ValidationAPIError
+from src.constants.codes import CODE_ERROR_PYDANTIC
+from src.constants.messages import MESSAGE_ERROR_PYDANTIC
+from src.utils.exceptions import ValidationAPIError
 
 logger = setup_logger(__name__)
 
-F = TypeVar("F", bound=Callable[..., Any])
+P = ParamSpec("P")
+R = TypeVar("R")
 
 
-def handle_exceptions(func: F) -> F:
-    @wraps(func)
-    def wrapper(*args: Any, **kwargs: Any) -> Response:
+def handle_exceptions(fn: Callable[P, R]) -> Callable[P, R]:
+    @wraps(fn)
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         try:
-            return func(*args, **kwargs)
-
-        except BaseAPIError as e:
-            logger.warning(f"APIError: {e}")
-            return jsonify(e.to_dict()), e.status_code
+            return fn(*args, **kwargs)
 
         except ValidationError as e:
-            logger.warning(f"Pydantic validation error: {e.errors()}")
-
-            err = ValidationAPIError(
+            raise ValidationAPIError(
                 code=CODE_ERROR_PYDANTIC,
                 message=MESSAGE_ERROR_PYDANTIC,
                 payload={"details": e.errors()},
             )
-            return jsonify(err.to_dict()), err.status_code
 
-        except Exception as e:
-            logger.exception("Unhandled exception")
-
-            response = {
-                "code": CODE_ERROR_GENERIC,
-                "message": MESSAGE_ERROR_GENERIC.format(e=str(e)),
-            }
-            return jsonify(response), 500
-
-    return cast(F, wrapper)
+    return wrapper

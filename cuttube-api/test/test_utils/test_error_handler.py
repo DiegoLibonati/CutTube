@@ -1,37 +1,38 @@
-from flask.testing import FlaskClient
+import pytest
+from flask import Flask
+from pydantic import BaseModel
 
-from src.constants.codes import CODE_ERROR_GENERIC, CODE_ERROR_PYDANTIC
-from src.constants.messages import MESSAGE_ERROR_GENERIC, MESSAGE_ERROR_PYDANTIC
+from src.utils.error_handler import handle_exceptions
 from src.utils.exceptions import ValidationAPIError
 
 
-def test_base_api_error(error_app: FlaskClient) -> None:
-    response = error_app.get("/base-api-error")
-    assert response.status_code == 400
-    data = response.get_json()
-    assert data["code"] == ValidationAPIError().code
-    assert data["message"] == "Custom API error"
+class TestHandleExceptionsDecorator:
+    def test_passes_through_on_success(self, app: Flask) -> None:
+        @handle_exceptions
+        def successful_function():
+            return "success"
 
+        with app.app_context():
+            result = successful_function()
+            assert result == "success"
 
-def test_pydantic_error(error_app: FlaskClient) -> None:
-    response = error_app.get("/pydantic-error")
-    assert response.status_code == 400
-    data = response.get_json()
-    assert data["code"] == CODE_ERROR_PYDANTIC
-    assert data["message"] == MESSAGE_ERROR_PYDANTIC
-    assert "details" in data["payload"]
+    def test_converts_validation_error(self, app: Flask) -> None:
+        class StrictModel(BaseModel):
+            value: int
 
+        @handle_exceptions
+        def function_with_validation():
+            StrictModel(value="not an int")
 
-def test_generic_error(error_app: FlaskClient) -> None:
-    response = error_app.get("/generic-error")
-    assert response.status_code == 500
-    data = response.get_json()
-    assert data["code"] == CODE_ERROR_GENERIC
-    assert data["message"].startswith(MESSAGE_ERROR_GENERIC.split("{")[0])
+        with app.app_context():
+            with pytest.raises(ValidationAPIError):
+                function_with_validation()
 
+    def test_preserves_function_metadata(self) -> None:
+        @handle_exceptions
+        def my_function():
+            """My docstring."""
+            pass
 
-def test_no_error(error_app: FlaskClient) -> None:
-    response = error_app.get("/no-error")
-    assert response.status_code == 200
-    data = response.get_json()
-    assert data == {"ok": True}
+        assert my_function.__name__ == "my_function"
+        assert my_function.__doc__ == "My docstring."
