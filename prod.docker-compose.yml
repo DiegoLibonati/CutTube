@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile.production
     restart: always
     expose:
-      - "3000"
+      - "5050"
     env_file: ./cuttube-api/.env
     networks:
       - net-cuttube

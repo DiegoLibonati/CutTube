@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from config.default_config import DefaultConfig
+from src.configs.default_config import DefaultConfig
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
