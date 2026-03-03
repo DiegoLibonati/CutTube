@@ -2,8 +2,8 @@ import importlib
 
 from flask import Flask
 
-from src.configs.logger_config import setup_logger
 from src.blueprints.routes import register_routes
+from src.configs.logger_config import setup_logger
 from src.utils.exceptions import BaseAPIError
 
 logger = setup_logger()

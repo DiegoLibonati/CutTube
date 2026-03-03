@@ -231,3 +231,6 @@ VITE_API_URL=http://host.docker.internal:5000
 ```
 
 ## Known Issues
+
+None at the moment.
+

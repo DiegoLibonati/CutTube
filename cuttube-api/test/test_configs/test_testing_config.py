@@ -1,7 +1,7 @@
 from src.configs.default_config import DefaultConfig
-from src.configs.testing_config import TestingConfig
-from src.configs.production_config import ProductionConfig
 from src.configs.development_config import DevelopmentConfig
+from src.configs.production_config import ProductionConfig
+from src.configs.testing_config import TestingConfig
 
 
 class TestTestingConfigInheritance:

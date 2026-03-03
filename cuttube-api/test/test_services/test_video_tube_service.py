@@ -12,9 +12,7 @@ class TestVideoTubeServiceInit:
     def test_init_sets_url(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         assert service.url == "https://www.youtube.com/watch?v=test"
 
@@ -22,9 +20,7 @@ class TestVideoTubeServiceInit:
     def test_init_sets_filename(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         assert service.filename == "test_file"
 
@@ -32,9 +28,7 @@ class TestVideoTubeServiceInit:
     def test_init_name_is_none(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         assert service.name is None
 
@@ -42,9 +36,7 @@ class TestVideoTubeServiceInit:
     def test_init_duration_is_zero(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         assert service.duration == 0
 
@@ -52,21 +44,15 @@ class TestVideoTubeServiceInit:
     def test_init_generates_folders(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = False
 
-        VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         assert mock_file_service.make_dirs.called
 
     @patch("src.services.video_tube_service.FileService")
-    def test_init_does_not_create_existing_folders(
-        self, mock_file_service: MagicMock
-    ) -> None:
+    def test_init_does_not_create_existing_folders(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         mock_file_service.make_dirs.assert_not_called()
 
@@ -76,9 +62,7 @@ class TestVideoTubeServiceGetVideoFromYoutube:
     def test_invalid_url_returns_false(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://invalid-url.com/video", filename="test_file"
-        )
+        service = VideoTubeService(url="https://invalid-url.com/video", filename="test_file")
 
         message, status = service.get_video_from_youtube()
 
@@ -86,14 +70,10 @@ class TestVideoTubeServiceGetVideoFromYoutube:
         assert "unavailable" in message.lower()
 
     @patch("src.services.video_tube_service.FileService")
-    def test_invalid_url_without_watch_returns_false(
-        self, mock_file_service: MagicMock
-    ) -> None:
+    def test_invalid_url_without_watch_returns_false(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/shorts/abc123", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/shorts/abc123", filename="test_file")
 
         message, status = service.get_video_from_youtube()
 
@@ -101,22 +81,16 @@ class TestVideoTubeServiceGetVideoFromYoutube:
 
     @patch("src.services.video_tube_service.YouTube")
     @patch("src.services.video_tube_service.FileService")
-    def test_valid_url_returns_true(
-        self, mock_file_service: MagicMock, mock_youtube: MagicMock
-    ) -> None:
+    def test_valid_url_returns_true(self, mock_file_service: MagicMock, mock_youtube: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
         mock_video = MagicMock()
         mock_video.length = 120
         mock_stream = MagicMock()
-        mock_video.streams.filter.return_value.order_by.return_value.desc.return_value.first.return_value = (
-            mock_stream
-        )
+        mock_video.streams.filter.return_value.order_by.return_value.desc.return_value.first.return_value = mock_stream
         mock_youtube.return_value = mock_video
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test123", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test123", filename="test_file")
 
         message, status = service.get_video_from_youtube()
 
@@ -125,22 +99,16 @@ class TestVideoTubeServiceGetVideoFromYoutube:
 
     @patch("src.services.video_tube_service.YouTube")
     @patch("src.services.video_tube_service.FileService")
-    def test_sets_duration_from_video(
-        self, mock_file_service: MagicMock, mock_youtube: MagicMock
-    ) -> None:
+    def test_sets_duration_from_video(self, mock_file_service: MagicMock, mock_youtube: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
         mock_video = MagicMock()
         mock_video.length = 300
         mock_stream = MagicMock()
-        mock_video.streams.filter.return_value.order_by.return_value.desc.return_value.first.return_value = (
-            mock_stream
-        )
+        mock_video.streams.filter.return_value.order_by.return_value.desc.return_value.first.return_value = mock_stream
         mock_youtube.return_value = mock_video
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test123", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test123", filename="test_file")
 
         service.get_video_from_youtube()
 
@@ -152,9 +120,7 @@ class TestVideoTubeServiceGetBetterStream:
     def test_raises_error_for_no_streams(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         with pytest.raises(ValueError) as exc_info:
             service.get_better_stream(streams=None)
@@ -165,9 +131,7 @@ class TestVideoTubeServiceGetBetterStream:
     def test_raises_error_for_empty_streams(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         with pytest.raises(ValueError):
             service.get_better_stream(streams=[])
@@ -178,19 +142,13 @@ class TestVideoTubeServiceGetBetterStream:
 
         mock_streams = MagicMock()
         mock_stream = MagicMock()
-        mock_streams.filter.return_value.order_by.return_value.desc.return_value.first.return_value = (
-            mock_stream
-        )
+        mock_streams.filter.return_value.order_by.return_value.desc.return_value.first.return_value = mock_stream
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         result = service.get_better_stream(streams=mock_streams)
 
-        mock_streams.filter.assert_called_once_with(
-            progressive=True, file_extension="mp4"
-        )
+        mock_streams.filter.assert_called_once_with(progressive=True, file_extension="mp4")
         assert result == mock_stream
 
 
@@ -199,9 +157,7 @@ class TestVideoTubeServiceDownloadStream:
     def test_raises_error_without_filename(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename=""
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="")
 
         with pytest.raises(ValueError) as exc_info:
             service.download_stream()
@@ -212,9 +168,7 @@ class TestVideoTubeServiceDownloadStream:
     def test_raises_error_without_stream(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         with pytest.raises(ValueError) as exc_info:
             service.download_stream()
@@ -227,9 +181,7 @@ class TestVideoTubeServiceGenerateClip:
     def test_raises_error_without_can_clip(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test_file"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test_file")
 
         service._VideoTubeService__stream = MagicMock()
 
@@ -253,9 +205,7 @@ class TestVideoTubeServiceProperties:
     def test_filename_property(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="my_filename"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="my_filename")
 
         assert service.filename == "my_filename"
 
@@ -263,21 +213,15 @@ class TestVideoTubeServiceProperties:
     def test_name_property_initially_none(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test")
 
         assert service.name is None
 
     @patch("src.services.video_tube_service.FileService")
-    def test_duration_property_initially_zero(
-        self, mock_file_service: MagicMock
-    ) -> None:
+    def test_duration_property_initially_zero(self, mock_file_service: MagicMock) -> None:
         mock_file_service.path_exists.return_value = True
 
-        service = VideoTubeService(
-            url="https://www.youtube.com/watch?v=test", filename="test"
-        )
+        service = VideoTubeService(url="https://www.youtube.com/watch?v=test", filename="test")
 
         assert service.duration == 0
 
@@ -296,9 +240,7 @@ class TestVideoTubeServiceCustomFolders:
                 folder_download=custom_download,
             )
 
-            call_args = [
-                call[0][0] for call in mock_file_service.make_dirs.call_args_list
-            ]
+            call_args = [call[0][0] for call in mock_file_service.make_dirs.call_args_list]
             assert custom_download in call_args
 
     @patch("src.services.video_tube_service.FileService")
@@ -314,9 +256,7 @@ class TestVideoTubeServiceCustomFolders:
                 folder_clips=custom_clips,
             )
 
-            call_args = [
-                call[0][0] for call in mock_file_service.make_dirs.call_args_list
-            ]
+            call_args = [call[0][0] for call in mock_file_service.make_dirs.call_args_list]
             assert custom_clips in call_args
 
     @patch("src.services.video_tube_service.FileService")
@@ -324,9 +264,7 @@ class TestVideoTubeServiceCustomFolders:
         mock_file_service.path_exists.return_value = True
 
         mock_streams = MagicMock()
-        mock_streams.filter.return_value.order_by.return_value.desc.return_value.first.return_value = (
-            MagicMock()
-        )
+        mock_streams.filter.return_value.order_by.return_value.desc.return_value.first.return_value = MagicMock()
 
         service = VideoTubeService(
             url="https://www.youtube.com/watch?v=test",
@@ -336,6 +274,4 @@ class TestVideoTubeServiceCustomFolders:
 
         service.get_better_stream(streams=mock_streams)
 
-        mock_streams.filter.assert_called_once_with(
-            progressive=True, file_extension="webm"
-        )
+        mock_streams.filter.assert_called_once_with(progressive=True, file_extension="webm")

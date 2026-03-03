@@ -78,24 +78,16 @@ def clip_video(filename: str) -> Response:
 @handle_exceptions
 def download_clip(filename: str) -> Response:
     if not filename:
-        raise ValidationAPIError(
-            code=CODE_NOT_VALID_FIELDS, message=MESSAGE_NOT_VALID_FIELDS
-        )
+        raise ValidationAPIError(code=CODE_NOT_VALID_FIELDS, message=MESSAGE_NOT_VALID_FIELDS)
 
     name = f"{filename}.{CLIP_EXTENSION}"
     docker_path = os.path.join(FOLDER_CLIPS_DOCKER, name)
     fs_path = os.path.join(FOLDER_CLIPS, name)
 
-    if not FileService.path_exists(fs_path) and not FileService.path_exists(
-        docker_path
-    ):
+    if not FileService.path_exists(fs_path) and not FileService.path_exists(docker_path):
         raise NotFoundAPIError(code=CODE_NOT_FOUND_PATH, message=MESSAGE_NOT_FOUND_PATH)
 
-    file_path = (
-        docker_path
-        if FileService.path_exists(docker_path)
-        else os.path.join(FOLDER_CLIPS, name)
-    )
+    file_path = docker_path if FileService.path_exists(docker_path) else os.path.join(FOLDER_CLIPS, name)
 
     return send_file(
         file_path,
@@ -108,24 +100,16 @@ def download_clip(filename: str) -> Response:
 @handle_exceptions
 def remove_clip(filename: str) -> Response:
     if not filename:
-        raise ValidationAPIError(
-            code=CODE_NOT_VALID_FIELDS, message=MESSAGE_NOT_VALID_FIELDS
-        )
+        raise ValidationAPIError(code=CODE_NOT_VALID_FIELDS, message=MESSAGE_NOT_VALID_FIELDS)
 
     name = f"{filename}.{CLIP_EXTENSION}"
     docker_path = os.path.join(FOLDER_CLIPS_DOCKER, name)
     fs_path = os.path.join(FOLDER_CLIPS, name)
 
-    if not FileService.path_exists(fs_path) and not FileService.path_exists(
-        docker_path
-    ):
+    if not FileService.path_exists(fs_path) and not FileService.path_exists(docker_path):
         raise NotFoundAPIError(code=CODE_NOT_FOUND_PATH, message=MESSAGE_NOT_FOUND_PATH)
 
-    file_path = (
-        docker_path
-        if FileService.path_exists(docker_path)
-        else os.path.join(FOLDER_CLIPS, name)
-    )
+    file_path = docker_path if FileService.path_exists(docker_path) else os.path.join(FOLDER_CLIPS, name)
 
     FileService.remove_file(file_path)
 

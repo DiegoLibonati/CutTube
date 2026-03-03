@@ -10,9 +10,7 @@ from src.constants.vars import CLIP_EXTENSION
 from src.services.file_service import FileService
 from src.utils.helpers import get_portion_seconds
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
 class VideoTubeService:
@@ -80,12 +78,7 @@ class VideoTubeService:
         if not streams:
             raise ValueError("You must enter streams to get the best one.")
 
-        return (
-            streams.filter(progressive=True, file_extension=self.__extension)
-            .order_by("resolution")
-            .desc()
-            .first()
-        )
+        return streams.filter(progressive=True, file_extension=self.__extension).order_by("resolution").desc().first()
 
     def download_stream(self) -> None:
         if not self.filename:
@@ -111,12 +104,8 @@ class VideoTubeService:
         if not self.filename:
             raise ValueError("You must enter a valid file name.")
 
-        path_download = os.path.join(
-            self.__folder_download, f"{self.filename}.{self.__extension}"
-        )
-        path_clip = os.path.join(
-            self.__folder_clips, f"{self.filename}.{self.__extension}"
-        )
+        path_download = os.path.join(self.__folder_download, f"{self.filename}.{self.__extension}")
+        path_clip = os.path.join(self.__folder_clips, f"{self.filename}.{self.__extension}")
 
         video = VideoFileClip(path_download)
 
@@ -133,9 +122,7 @@ class VideoTubeService:
 
         self.__can_clip = False
 
-    def __on_progress(
-        self, stream: streams.Stream, chunk: bytes, bytes_remaining: int
-    ) -> None:
+    def __on_progress(self, stream: streams.Stream, chunk: bytes, bytes_remaining: int) -> None:
         if not bytes_remaining:
             self.__can_clip = True
 
