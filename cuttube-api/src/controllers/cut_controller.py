@@ -24,11 +24,11 @@ from src.constants.vars import CLIP_EXTENSION
 from src.models.clip_model import ClipModel
 from src.services.file_service import FileService
 from src.services.video_tube_service import VideoTubeService
-from src.utils.error_handler import handle_exceptions
 from src.utils.exceptions import ConflictAPIError, NotFoundAPIError, ValidationAPIError
+from src.utils.exceptions_handler import exceptions_handler
 
 
-@handle_exceptions
+@exceptions_handler
 def alive() -> Response:
     response = {
         "message": "I am Alive!",
@@ -40,7 +40,7 @@ def alive() -> Response:
     return jsonify(response), 200
 
 
-@handle_exceptions
+@exceptions_handler
 def clip_video(filename: str) -> Response:
     body = request.get_json()
 
@@ -75,7 +75,7 @@ def clip_video(filename: str) -> Response:
     return jsonify(response), 200
 
 
-@handle_exceptions
+@exceptions_handler
 def download_clip(filename: str) -> Response:
     if not filename:
         raise ValidationAPIError(code=CODE_NOT_VALID_FIELDS, message=MESSAGE_NOT_VALID_FIELDS)
@@ -97,7 +97,7 @@ def download_clip(filename: str) -> Response:
     )
 
 
-@handle_exceptions
+@exceptions_handler
 def remove_clip(filename: str) -> Response:
     if not filename:
         raise ValidationAPIError(code=CODE_NOT_VALID_FIELDS, message=MESSAGE_NOT_VALID_FIELDS)

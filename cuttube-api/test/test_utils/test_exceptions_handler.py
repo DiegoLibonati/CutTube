@@ -2,13 +2,13 @@ import pytest
 from flask import Flask
 from pydantic import BaseModel
 
-from src.utils.error_handler import handle_exceptions
 from src.utils.exceptions import ValidationAPIError
+from src.utils.exceptions_handler import exceptions_handler
 
 
 class TestHandleExceptionsDecorator:
     def test_passes_through_on_success(self, app: Flask) -> None:
-        @handle_exceptions
+        @exceptions_handler
         def successful_function():
             return "success"
 
@@ -20,7 +20,7 @@ class TestHandleExceptionsDecorator:
         class StrictModel(BaseModel):
             value: int
 
-        @handle_exceptions
+        @exceptions_handler
         def function_with_validation():
             StrictModel(value="not an int")
 
@@ -29,7 +29,7 @@ class TestHandleExceptionsDecorator:
                 function_with_validation()
 
     def test_preserves_function_metadata(self) -> None:
-        @handle_exceptions
+        @exceptions_handler
         def my_function():
             """My docstring."""
             pass

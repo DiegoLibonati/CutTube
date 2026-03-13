@@ -22,6 +22,15 @@ NOTE: Install **pre-commit** inside: `cuttube-api` folder.
 1. Once you're inside the virtual environment, let's install the hooks specified in the pre-commit. Execute: `pre-commit install`
 2. Now every time you try to commit, the pre-commit lint will run. If you want to do it manually, you can run the command: `pre-commit run --all-files`
 
+## Security Audit (Python)
+
+You can check your dependencies for known vulnerabilities using **pip-audit**.
+
+1. Go to the repository folder
+2. Activate your virtual environment
+3. Execute: `pip install -r requirements.dev.txt`
+4. Execute: `pip-audit -r requirements.txt`
+
 ## Description
 
 I made a web application that allows to clip youtube videos through a start and end time, passing a custom clip name and a link from video to clip.
@@ -96,11 +105,17 @@ Deploy:
 
 ```
 pytubefix==8.8.2
-flask==3.1.2
+flask==3.1.3
 moviepy==2.1.1
 pydantic==2.11.9
 gunicorn==23.0.0
+```
+
+#### Requirements.dev.txt
+
+```
 pre-commit==4.3.0
+pip-audit==2.7.3
 ```
 
 #### Requirements.test.txt
@@ -232,5 +247,8 @@ VITE_API_URL=http://host.docker.internal:5000
 
 ## Known Issues
 
-None at the moment.
+### [SERVER] - CVE-2026-25990 / GHSA-cfh3-3jmp-rvhc — Pillow out-of-bounds write (High)
 
+pillow 10.4.0 (pulled in transitively by moviepy) is affected by an out-of-bounds write vulnerability triggered when loading specially crafted PSD image files. The fix is available in pillow 12.1.1.
+This vulnerability does not affect this project in practice. CutTube only processes video streams downloaded from YouTube and never opens or accepts PSD files. The attack vector is not reachable through any code path in this API.
+Upgrading Pillow to 12.1.1 is blocked by moviepy==2.1.1, which declares pillow<12.0 as a dependency constraint. This will be resolved once moviepy releases a version that lifts that cap.
