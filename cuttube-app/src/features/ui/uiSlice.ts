@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { UiState } from "@src/entities/states";
-import { Modal } from "@src/entities/app";
+import { UiState } from "@/types/states";
+import { Modal } from "@/types/app";
 
 const uiState: UiState = {
   loading: false,
@@ -39,7 +39,6 @@ export const uiSlice = createSlice({
   },
 });
 
-export const { setLoading, setModal, resetModal, setVideoDownloaded } =
-  uiSlice.actions;
+export const { setLoading, setModal, resetModal, setVideoDownloaded } = uiSlice.actions;
 
 export default uiSlice.reducer;

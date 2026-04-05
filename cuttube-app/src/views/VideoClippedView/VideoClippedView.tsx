@@ -2,11 +2,11 @@ import { BiCheckCircle } from "react-icons/bi";
 import { PiPencil } from "react-icons/pi";
 import { SlStar } from "react-icons/sl";
 
-import { MainLayout } from "@src/layouts/MainLayout/MainLayout";
+import MainLayout from "@/layouts/MainLayout/MainLayout";
 
-import { useUiStore } from "@src/hooks/useUiStore";
+import { useUiStore } from "@/hooks/useUiStore";
 
-export const VideoClippedView = (): JSX.Element => {
+const VideoClippedView = () => {
   const { onSetVideoDownloaded } = useUiStore();
 
   const handleClickGoBack: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -16,14 +16,8 @@ export const VideoClippedView = (): JSX.Element => {
   return (
     <MainLayout className="flex flex-col items-center justify-center">
       <div className="relative">
-        <SlStar
-          className="absolute text-[2rem] -top-18 -left-12"
-          fill="white"
-        ></SlStar>
-        <PiPencil
-          fill="white"
-          className="absolute text-[4rem] -top-12 left-28"
-        ></PiPencil>
+        <SlStar className="absolute text-[2rem] -top-18 -left-12" fill="white"></SlStar>
+        <PiPencil fill="white" className="absolute text-[4rem] -top-12 left-28"></PiPencil>
         <BiCheckCircle fill="white" className="text-[8rem]"></BiCheckCircle>
       </div>
 
@@ -46,3 +40,5 @@ export const VideoClippedView = (): JSX.Element => {
     </MainLayout>
   );
 };
+
+export default VideoClippedView;

@@ -1,8 +1,8 @@
-import { Loader } from "@src/components/Loader/Loader";
+import Loader from "@/components/Loader/Loader";
 
-import { MainLayout } from "@src/layouts/MainLayout/MainLayout";
+import MainLayout from "@/layouts/MainLayout/MainLayout";
 
-export const LoadingView = (): JSX.Element => {
+const LoadingView = () => {
   return (
     <MainLayout className="flex flex-col items-center justify-center">
       <Loader></Loader>
@@ -12,3 +12,5 @@ export const LoadingView = (): JSX.Element => {
     </MainLayout>
   );
 };
+
+export default LoadingView;

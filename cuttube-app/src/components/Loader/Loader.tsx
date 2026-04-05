@@ -1,5 +1,7 @@
-import "@src/components/Loader/Loader.css";
+import "@/components/Loader/Loader.css";
 
-export const Loader = (): JSX.Element => {
+const Loader = () => {
   return <div className="loader"></div>;
 };
+
+export default Loader;

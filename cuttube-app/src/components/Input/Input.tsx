@@ -1,14 +1,6 @@
-import { InputProps } from "@src/entities/props";
+import { InputProps } from "@/types/props";
 
-export const Input = ({
-  id,
-  type,
-  className,
-  placeholder,
-  value,
-  name,
-  onChange,
-}: InputProps): JSX.Element => {
+const Input = ({ id, type, className, placeholder, value, name, onChange }: InputProps) => {
   return (
     <input
       id={id}
@@ -21,3 +13,5 @@ export const Input = ({
     ></input>
   );
 };
+
+export default Input;

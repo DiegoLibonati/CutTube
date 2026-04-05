@@ -1,20 +1,19 @@
 import { AxiosError } from "axios";
 
-import { FormClip } from "@src/entities/forms";
+import { FormClip } from "@/types/forms";
 
-import { Input } from "@src/components/Input/Input";
-import { InputRoot } from "@src/components/InputRoot/InputRoot";
-import { Label } from "@src/components/Label/Label";
+import Input from "@/components/Input/Input";
+import InputRoot from "@/components/InputRoot/InputRoot";
+import Label from "@/components/Label/Label";
 
-import { MainLayout } from "@src/layouts/MainLayout/MainLayout";
+import MainLayout from "@/layouts/MainLayout/MainLayout";
 
-import { clipVideo } from "@src/api/post/clipVideo";
-import { removeClip } from "@src/api/delete/removeClip";
+import cutTubeService from "@/services/cutTubeService";
 
-import { useForm } from "@src/hooks/useForm";
-import { useUiStore } from "@src/hooks/useUiStore";
+import { useForm } from "@/hooks/useForm";
+import { useUiStore } from "@/hooks/useUiStore";
 
-export const CreateClipView = (): JSX.Element => {
+const CreateClipView = () => {
   // Hooks
   const { formState, onInputChange, onResetForm } = useForm<FormClip>({
     start: "",
@@ -25,9 +24,7 @@ export const CreateClipView = (): JSX.Element => {
   const { onSetLoading, onOpenModal, onSetVideoDownloaded } = useUiStore();
 
   // Fns
-  const handleCreateClip: React.FormEventHandler<HTMLFormElement> = async (
-    e
-  ): Promise<void> => {
+  const handleCreateClip: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
     try {
       e.preventDefault();
       onSetLoading(true);
@@ -64,14 +61,14 @@ export const CreateClipView = (): JSX.Element => {
         return;
       }
 
-      const response = await clipVideo(formState);
+      const response = await cutTubeService.clipVideo(formState);
 
       const name = response.data.name;
       const filename = response.data.filename;
 
       const download = new Promise((resolve, reject) => {
         try {
-          if (process.env.NODE_ENV === "test") return resolve(void 0);
+          if (import.meta.env.NODE_ENV === "test") return resolve(void 0);
 
           const a = document.createElement("a") as HTMLAnchorElement;
 
@@ -91,7 +88,7 @@ export const CreateClipView = (): JSX.Element => {
 
       download.then(() => {
         const timeout = setTimeout(async () => {
-          await removeClip(filename);
+          await cutTubeService.removeClip(filename);
           onSetLoading(false);
           onSetVideoDownloaded(true);
         }, 2000);
@@ -99,7 +96,7 @@ export const CreateClipView = (): JSX.Element => {
         return () => clearTimeout(timeout);
       });
     } catch (e: unknown) {
-      let message = String(e) ?? "U";
+      let message = String(e) || "U";
 
       if (e instanceof AxiosError) {
         message = e?.response?.data?.message;
@@ -137,7 +134,7 @@ export const CreateClipView = (): JSX.Element => {
               id="input-start-time"
               name="start"
               type="text"
-              className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
+              className="p-2 rounded-full bg-charcoal w-full outline-none text-white placeholder:text-gray-400"
               placeholder="00:00:00"
               value={formState.start}
               onChange={onInputChange}
@@ -154,7 +151,7 @@ export const CreateClipView = (): JSX.Element => {
               id="input-end-time"
               name="end"
               type="text"
-              className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
+              className="p-2 rounded-full bg-charcoal w-full outline-none text-white placeholder:text-gray-400"
               placeholder="00:00:00"
               value={formState.end}
               onChange={onInputChange}
@@ -172,7 +169,7 @@ export const CreateClipView = (): JSX.Element => {
             id="input-clip-title"
             name="filename"
             type="text"
-            className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
+            className="p-2 rounded-full bg-charcoal w-full outline-none text-white placeholder:text-gray-400"
             placeholder="My Awesome Clip"
             value={formState.filename}
             onChange={onInputChange}
@@ -189,7 +186,7 @@ export const CreateClipView = (): JSX.Element => {
             id="input-youtube-link"
             name="url"
             type="text"
-            className="p-2 rounded-full bg-tinyBlack w-full outline-none text-white placeholder:text-gray-400"
+            className="p-2 rounded-full bg-charcoal w-full outline-none text-white placeholder:text-gray-400"
             placeholder="https://youtube.com/watch?v=12345"
             value={formState.url}
             onChange={onInputChange}
@@ -207,3 +204,5 @@ export const CreateClipView = (): JSX.Element => {
     </MainLayout>
   );
 };
+
+export default CreateClipView;

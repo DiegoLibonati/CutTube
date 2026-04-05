@@ -1,8 +1,7 @@
-import { InputRootProps } from "@src/entities/props";
+import { InputRootProps } from "@/types/props";
 
-export const InputRoot = ({
-  children,
-  className,
-}: InputRootProps): JSX.Element => {
+const InputRoot = ({ children, className }: InputRootProps) => {
   return <div className={className}>{children}</div>;
 };
+
+export default InputRoot;

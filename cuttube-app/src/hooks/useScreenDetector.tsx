@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { UseScreenDetector } from "@src/entities/hooks";
+import { UseScreenDetector } from "@/types/hooks";
 
 export const useScreenDetector = (): UseScreenDetector => {
   const [width, setWidth] = useState<number>(window.innerWidth);

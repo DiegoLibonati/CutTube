@@ -1,13 +1,11 @@
-import { LabelProps } from "@src/entities/props";
+import { LabelProps } from "@/types/props";
 
-export const Label = ({
-  labelText,
-  htmlFor,
-  className,
-}: LabelProps): JSX.Element => {
+const Label = ({ labelText, htmlFor, className }: LabelProps) => {
   return (
     <label className={className} htmlFor={htmlFor}>
       {labelText}
     </label>
   );
 };
+
+export default Label;

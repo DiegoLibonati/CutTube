@@ -1,11 +1,11 @@
 import { HashRouter } from "react-router-dom";
 
-import { AppRouter } from "@src/router/AppRouter";
+import { CutTubeRouter } from "@/router/CutTubeRouter";
 
-function App(): JSX.Element {
+function App() {
   return (
     <HashRouter>
-      <AppRouter></AppRouter>
+      <CutTubeRouter></CutTubeRouter>
     </HashRouter>
   );
 }

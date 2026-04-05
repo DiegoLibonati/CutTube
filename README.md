@@ -22,22 +22,13 @@ NOTE: Install **pre-commit** inside: `cuttube-api` folder.
 1. Once you're inside the virtual environment, let's install the hooks specified in the pre-commit. Execute: `pre-commit install`
 2. Now every time you try to commit, the pre-commit lint will run. If you want to do it manually, you can run the command: `pre-commit run --all-files`
 
-## Security Audit (Python)
-
-You can check your dependencies for known vulnerabilities using **pip-audit**.
-
-1. Go to the repository folder
-2. Activate your virtual environment
-3. Execute: `pip install -r requirements.dev.txt`
-4. Execute: `pip-audit -r requirements.txt`
-
 ## Description
 
 I made a web application that allows to clip youtube videos through a start and end time, passing a custom clip name and a link from video to clip.
 
 ## Technologies used
 
-1. React
+1. React JS
 2. Typescript
 3. Tailwind CSS
 4. CSS3
@@ -63,40 +54,42 @@ Deploy:
 ```
 "@reduxjs/toolkit": "^2.2.2"
 "axios": "^1.6.8"
-"react": "^18.2.0"
-"react-dom": "^18.2.0"
+"react": "^19.2.4"
+"react-dom": "^19.2.4"
+"react-router-dom": "7.13.2"
 "react-icons": "^5.0.1"
 "react-redux": "^9.1.0"
-"react-router-dom": "^6.22.3"
 ```
 
 #### devDependencies
 
 ```
+"@eslint/js": "^9.0.0"
 "@testing-library/dom": "^10.4.0"
-"@testing-library/jest-dom": "^6.6.2"
+"@testing-library/jest-dom": "^6.6.3"
 "@testing-library/react": "^16.0.1"
 "@testing-library/user-event": "^14.5.2"
-"@types/jest": "^29.5.13"
-"@types/node": "^20.10.6"
-"@types/react": "^18.3.11"
-"@types/react-dom": "^18.3.1"
+"@types/jest": "^30.0.0"
+"@types/react": "^19.2.14"
+"@types/react-dom": "^19.2.3"
 "@vitejs/plugin-react": "^5.0.2"
-"@typescript-eslint/parser": "^7.2.0"
-"@typescript-eslint/eslint-plugin": "^7.2.0"
-"axios-mock-adapter": "^2.1.0"
+"eslint": "^9.0.0"
+"eslint-config-prettier": "^9.0.0"
+"eslint-plugin-react-hooks": "^5.0.0"
+"eslint-plugin-react-refresh": "^0.4.0"
+"globals": "^15.0.0"
+"husky": "^9.0.0"
+"jest": "^30.3.0"
+"jest-environment-jsdom": "^30.3.0"
+"lint-staged": "^15.0.0"
+"prettier": "^3.0.0"
+"ts-jest": "^29.4.6"
 "autoprefixer": "^10.4.18"
-"eslint": "^8.57.0"
-"eslint-plugin-react-hooks": "^4.6.0"
-"eslint-plugin-react-refresh": "^0.4.6"
-"jest": "^29.7.0"
-"jest-environment-jsdom": "^29.7.0"
 "postcss": "^8.4.37"
 "tailwindcss": "^3.4.1"
-"ts-jest": "^29.2.5"
-"ts-node": "^10.9.2"
 "typescript": "^5.2.2"
-"vite": "^7.1.7"
+"typescript-eslint": "^8.0.0"
+"vite": "^7.1.6"
 ```
 
 ### Backend
@@ -141,8 +134,14 @@ https://github.com/DiegoLibonati/CutTube/assets/99032604/44d38dd8-bf66-42b0-9240
 
 ### Frontend
 
-1. Join to `cuttube-app` folder
-2. Execute: `yarn test` or `npm test`
+1. Navigate to the project folder
+2. Execute: `npm test`
+
+For coverage report:
+
+```bash
+npm run test:coverage
+```
 
 ### Backend
 
@@ -152,6 +151,39 @@ https://github.com/DiegoLibonati/CutTube/assets/99032604/44d38dd8-bf66-42b0-9240
 4. Execute: `pip install -r requirements.txt`
 5. Execute: `pip install -r requirements.test.txt`
 6. Execute: `pytest --log-cli-level=INFO`
+
+## Security Audit (Python)
+
+You can check your dependencies for known vulnerabilities using **pip-audit**.
+
+1. Go to the repository folder
+2. Activate your virtual environment
+3. Execute: `pip install -r requirements.dev.txt`
+4. Execute: `pip-audit -r requirements.txt`
+
+## Security Audit (Frontend)
+
+### npm audit
+
+Check for vulnerabilities in dependencies:
+
+```bash
+npm audit
+```
+
+### React Doctor (Frontend)
+
+Run a health check on the project (security, performance, dead code, architecture):
+
+```bash
+npm run doctor
+```
+
+Use `--verbose` to see specific files and line numbers:
+
+```bash
+npm run doctor -- --verbose
+```
 
 ## Documentation API
 
@@ -199,7 +231,7 @@ VITE_API_URL=http://host.docker.internal:5000
 - **Endpoint Route**: /api/v1/cut/<filename>/clip
 - **Endpoint Method**: POST
 - **Endpoint Fn**: This endpoint downloads the video from youtube, obtains the best stream based on the quality and clips based on the parameters entered through the body.
-- **Endpoint Params**: 
+- **Endpoint Params**:
 
 ```ts
 {
@@ -211,12 +243,11 @@ VITE_API_URL=http://host.docker.internal:5000
 
 ```ts
 {
-    url: string;
-    start: string;
-    end: string;
+  url: string;
+  start: string;
+  end: string;
 }
 ```
-
 
 ---
 
@@ -224,7 +255,7 @@ VITE_API_URL=http://host.docker.internal:5000
 - **Endpoint Route**: /api/v1/cut/<filename>/download
 - **Endpoint Method**: GET
 - **Endpoint Fn**: This endpoint downloads the clip to the user's browser once the clip has been clicked and exists on the server. The name of the file with the extension .mp4 is entered via the URL.
-- **Endpoint Params**: 
+- **Endpoint Params**:
 
 ```ts
 {
@@ -238,7 +269,7 @@ VITE_API_URL=http://host.docker.internal:5000
 - **Endpoint Route**: /api/v1/cut/<filename>
 - **Endpoint Method**: DELETE
 - **Endpoint Fn**: This endpoint removes from the server if it exists the clip that is entered via URL based on its name and its .mp4 extension.
-- **Endpoint Params**: 
+- **Endpoint Params**:
 
 ```ts
 {

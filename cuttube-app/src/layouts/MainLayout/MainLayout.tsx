@@ -1,12 +1,7 @@
-import { MainLayoutProps } from "@src/entities/props";
+import { MainLayoutProps } from "@/types/props";
 
-export const MainLayout = ({
-  children,
-  className,
-}: MainLayoutProps): JSX.Element => {
-  return (
-    <main className={`w-full min-h-screen bg-primary ${className}`}>
-      {children}
-    </main>
-  );
+const MainLayout = ({ children, className }: MainLayoutProps) => {
+  return <main className={`w-full min-h-screen bg-primary ${className}`}>{children}</main>;
 };
+
+export default MainLayout;

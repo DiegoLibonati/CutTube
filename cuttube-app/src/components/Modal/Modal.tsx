@@ -1,6 +1,6 @@
-import { useUiStore } from "@src/hooks/useUiStore";
+import { useUiStore } from "@/hooks/useUiStore";
 
-export const Modal = (): JSX.Element => {
+const Modal = () => {
   const { modal, onResetModal } = useUiStore();
 
   const handleClickButton: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -9,7 +9,7 @@ export const Modal = (): JSX.Element => {
 
   return (
     <div className="flex items-center justify-center absolute bg-black bg-opacity-75 w-full h-full">
-      <div className="flex flex-col items-center justify-around bg-tinyBlack w-[22rem] h-[12.5rem] p-4 rounded-lg shadow-md">
+      <div className="flex flex-col items-center justify-around bg-charcoal w-[22rem] h-[12.5rem] p-4 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold text-white">{modal.title}</h2>
         <p className="text-white text-center text-base">{modal.message}</p>
         <button
@@ -24,3 +24,5 @@ export const Modal = (): JSX.Element => {
     </div>
   );
 };
+
+export default Modal;
