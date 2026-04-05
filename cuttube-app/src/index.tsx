@@ -7,7 +7,7 @@ import { store } from "@/app/store";
 
 import "@/index.css";
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
   <Provider store={store}>
     <App />

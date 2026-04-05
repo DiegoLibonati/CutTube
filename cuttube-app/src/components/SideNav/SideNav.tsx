@@ -1,6 +1,8 @@
 import { BsFilm } from "react-icons/bs";
 
-const SideNav = () => {
+import type { JSX } from "react";
+
+const SideNav = (): JSX.Element => {
   return (
     <aside className="flex flex-col h-screen w-[12.5rem] bg-secondary p-2">
       <button

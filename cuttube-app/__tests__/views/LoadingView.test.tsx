@@ -2,9 +2,11 @@ import { render, screen } from "@testing-library/react";
 
 import LoadingView from "@/views/LoadingView/LoadingView";
 
-type RenderComponent = { container: HTMLElement };
+interface RenderView {
+  container: HTMLElement;
+}
 
-const renderComponent = (): RenderComponent => {
+const renderView = (): RenderView => {
   const { container } = render(<LoadingView />);
   return { container };
 };
@@ -15,12 +17,12 @@ describe("LoadingView", () => {
   });
 
   it("should render the Loader", () => {
-    renderComponent();
+    renderView();
     expect(screen.getByRole("status", { name: "Processing video clip" })).toBeInTheDocument();
   });
 
   it("should render the processing message", () => {
-    renderComponent();
+    renderView();
     expect(
       screen.getByText("Your video clip is being processed. This may take a few moments")
     ).toBeInTheDocument();

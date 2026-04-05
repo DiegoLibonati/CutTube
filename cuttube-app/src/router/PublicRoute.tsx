@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-export const PublicRoute = () => {
+import type { JSX } from "react";
+
+export const PublicRoute = (): JSX.Element => {
   return <Outlet />;
 };

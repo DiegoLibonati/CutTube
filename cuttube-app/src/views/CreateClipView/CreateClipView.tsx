@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { FormClip } from "@/types/forms";
+import type { JSX } from "react";
 
 import Input from "@/components/Input/Input";
 import InputRoot from "@/components/InputRoot/InputRoot";
@@ -13,9 +13,9 @@ import cutTubeService from "@/services/cutTubeService";
 import { useForm } from "@/hooks/useForm";
 import { useUiStore } from "@/hooks/useUiStore";
 
-const CreateClipView = () => {
+const CreateClipView = (): JSX.Element => {
   // Hooks
-  const { formState, onInputChange, onResetForm } = useForm<FormClip>({
+  const { formState, onInputChange, onResetForm } = useForm({
     start: "",
     end: "",
     filename: "",
@@ -24,7 +24,7 @@ const CreateClipView = () => {
   const { onSetLoading, onOpenModal, onSetVideoDownloaded } = useUiStore();
 
   // Fns
-  const handleCreateClip: React.FormEventHandler<HTMLFormElement> = async (e): Promise<void> => {
+  const handleCreateClip = async (e: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
     try {
       e.preventDefault();
       onSetLoading(true);
@@ -63,52 +63,34 @@ const CreateClipView = () => {
 
       const response = await cutTubeService.clipVideo(formState);
 
-      const name = response.data.name;
-      const filename = response.data.filename;
+      const { name, filename } = response.data;
 
-      const download = new Promise((resolve, reject) => {
-        try {
-          const a = document.createElement("a") as HTMLAnchorElement;
+      const a = document.createElement("a");
+      a.href = `/api/v1/cut/${filename}/download`;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
 
-          a.href = `/api/v1/cut/${filename}/download`;
-          a.download = name;
-
-          document.body.appendChild(a);
-
-          a.click();
-          a.remove();
-
-          resolve(void 0);
-        } catch (e) {
-          reject(e);
-        }
-      });
-
-      download.then(() => {
-        const timeout = setTimeout(async () => {
-          await cutTubeService.removeClip(filename);
-          onSetLoading(false);
-          onSetVideoDownloaded(true);
-        }, 2000);
-
-        return () => clearTimeout(timeout);
-      });
+      await new Promise<void>((resolve) => setTimeout(resolve, 2000));
+      await cutTubeService.removeClip(filename);
+      onSetLoading(false);
+      onSetVideoDownloaded(true);
     } catch (e: unknown) {
       let message = String(e) || "U";
 
       if (e instanceof AxiosError) {
-        message = e?.response?.data?.message;
+        message = (e.response?.data as { message?: string }).message ?? "Error.";
       }
 
       onSetLoading(false);
       onOpenModal({
         buttonText: "Close",
-        message: message ?? "Error.",
+        message,
         open: true,
         title: "Error",
       });
       onResetForm();
-      return;
     }
   };
 
@@ -119,7 +101,9 @@ const CreateClipView = () => {
 
       <form
         className={`flex flex-col items-start justify-center w-full p-2 md:w-[60%]`}
-        onSubmit={handleCreateClip}
+        onSubmit={(e) => {
+          void handleCreateClip(e);
+        }}
         aria-label="Clip creation form"
       >
         <div className={`flex flex-col w-full md:flex-row`}>

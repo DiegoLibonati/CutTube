@@ -1,10 +1,13 @@
 import { render, screen } from "@testing-library/react";
 
-import { LabelProps } from "@/types/props";
+import type { LabelProps } from "@/types/props";
 
 import Label from "@/components/Label/Label";
 
-type RenderComponent = { container: HTMLElement; props: LabelProps };
+interface RenderComponent {
+  container: HTMLElement;
+  props: LabelProps;
+}
 
 const renderComponent = (overrides?: Partial<LabelProps>): RenderComponent => {
   const props: LabelProps = {

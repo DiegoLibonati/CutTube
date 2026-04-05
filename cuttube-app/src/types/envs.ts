@@ -1,3 +1,3 @@
-export type Envs = {
+export interface Envs {
   apiUrl: string;
-};
+}

@@ -1,18 +1,18 @@
-import { Modal } from "@/types/app";
+import type { Modal } from "@/types/app";
 
-export type UseForm<T> = {
+export interface UseForm<T> {
   formState: T;
   onInputChange: React.ChangeEventHandler<HTMLInputElement>;
   onResetForm: () => void;
-};
+}
 
-export type UseScreenDetector = {
+export interface UseScreenDetector {
   isMobile: boolean;
   isTablet: boolean;
   isDesktop: boolean;
-};
+}
 
-export type UseUiStore = {
+export interface UseUiStore {
   modal: Modal;
   videoDownloaded: boolean;
   loading: boolean;
@@ -20,4 +20,4 @@ export type UseUiStore = {
   onSetLoading: (boolean: boolean) => void;
   onOpenModal: (modal: Modal) => void;
   onResetModal: () => void;
-};
+}

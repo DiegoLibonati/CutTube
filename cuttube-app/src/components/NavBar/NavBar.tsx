@@ -1,6 +1,8 @@
 import { BsFilm } from "react-icons/bs";
 
-const NavBar = () => {
+import type { JSX } from "react";
+
+const NavBar = (): JSX.Element => {
   return (
     <header className="flex flex-row items-center justify-between w-full fixed bottom-0 bg-secondary p-2">
       <div

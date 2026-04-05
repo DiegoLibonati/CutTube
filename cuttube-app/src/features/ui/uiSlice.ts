@@ -1,7 +1,8 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { UiState } from "@/types/states";
-import { Modal } from "@/types/app";
+import type { UiState } from "@/types/states";
+import type { Modal } from "@/types/app";
 
 const uiState: UiState = {
   loading: false,

@@ -1,6 +1,15 @@
-import { InputProps } from "@/types/props";
+import type { JSX } from "react";
+import type { InputProps } from "@/types/props";
 
-const Input = ({ id, type, className, placeholder, value, name, onChange }: InputProps) => {
+const Input = ({
+  id,
+  type,
+  className,
+  placeholder,
+  value,
+  name,
+  onChange,
+}: InputProps): JSX.Element => {
   return (
     <input
       id={id}

@@ -1,12 +1,15 @@
 import { render, screen } from "@testing-library/react";
 
-import { MainLayoutProps } from "@/types/props";
+import type { MainLayoutProps } from "@/types/props";
 
 import MainLayout from "@/layouts/MainLayout/MainLayout";
 
-type RenderComponent = { container: HTMLElement; props: MainLayoutProps };
+interface RenderLayout {
+  container: HTMLElement;
+  props: MainLayoutProps;
+}
 
-const renderComponent = (overrides?: Partial<MainLayoutProps>): RenderComponent => {
+const renderLayout = (overrides?: Partial<MainLayoutProps>): RenderLayout => {
   const props: MainLayoutProps = {
     children: <p>layout content</p>,
     className: "",
@@ -22,17 +25,17 @@ describe("MainLayout", () => {
   });
 
   it("should render a main element", () => {
-    renderComponent();
+    renderLayout();
     expect(screen.getByRole("main")).toBeInTheDocument();
   });
 
   it("should render children", () => {
-    renderComponent();
+    renderLayout();
     expect(screen.getByText("layout content")).toBeInTheDocument();
   });
 
   it("should apply the given className to the main element", () => {
-    renderComponent({ className: "extra-class" });
+    renderLayout({ className: "extra-class" });
     expect(screen.getByRole("main")).toHaveClass("extra-class");
   });
 });

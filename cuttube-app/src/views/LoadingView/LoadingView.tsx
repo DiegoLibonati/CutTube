@@ -1,8 +1,10 @@
+import type { JSX } from "react";
+
 import Loader from "@/components/Loader/Loader";
 
 import MainLayout from "@/layouts/MainLayout/MainLayout";
 
-const LoadingView = () => {
+const LoadingView = (): JSX.Element => {
   return (
     <MainLayout className="flex flex-col items-center justify-center">
       <Loader></Loader>

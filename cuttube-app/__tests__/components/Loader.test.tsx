@@ -2,7 +2,9 @@ import { render, screen } from "@testing-library/react";
 
 import Loader from "@/components/Loader/Loader";
 
-type RenderComponent = { container: HTMLElement };
+interface RenderComponent {
+  container: HTMLElement;
+}
 
 const renderComponent = (): RenderComponent => {
   const { container } = render(<Loader />);

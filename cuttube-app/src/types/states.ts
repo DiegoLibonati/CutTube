@@ -1,7 +1,7 @@
-import { Modal } from "@/types/app";
+import type { Modal } from "@/types/app";
 
-export type UiState = {
+export interface UiState {
   loading: boolean;
   modal: Modal;
   videoDownloaded: boolean;
-};
+}

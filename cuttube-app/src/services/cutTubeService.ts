@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { FormClip } from "@/types/forms";
+import type { FormClip } from "@/types/forms";
 
 import { apiCutTube } from "@/services/axios";
 
@@ -13,7 +13,10 @@ const cutTubeService = {
   }> => {
     try {
       const request = await apiCutTube.delete(`/${filename}`);
-      return request.data;
+      return request.data as {
+        code: string;
+        message: string;
+      };
     } catch (e) {
       if (axios.isAxiosError(e)) {
         throw new Error(`HTTP error! status: ${e.response?.status} - ${e.message}`);
@@ -40,7 +43,14 @@ const cutTubeService = {
           end: form.end,
         })
       );
-      return request.data;
+      return request.data as {
+        code: string;
+        message: string;
+        data: {
+          name: string;
+          filename: string;
+        };
+      };
     } catch (e) {
       if (axios.isAxiosError(e)) {
         throw new Error(`HTTP error! status: ${e.response?.status} - ${e.message}`);

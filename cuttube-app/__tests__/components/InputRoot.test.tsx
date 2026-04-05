@@ -1,10 +1,13 @@
 import { render, screen } from "@testing-library/react";
 
-import { InputRootProps } from "@/types/props";
+import type { InputRootProps } from "@/types/props";
 
 import InputRoot from "@/components/InputRoot/InputRoot";
 
-type RenderComponent = { container: HTMLElement; props: InputRootProps };
+interface RenderComponent {
+  container: HTMLElement;
+  props: InputRootProps;
+}
 
 const renderComponent = (overrides?: Partial<InputRootProps>): RenderComponent => {
   const props: InputRootProps = {

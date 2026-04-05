@@ -3,11 +3,13 @@ import userEvent from "@testing-library/user-event";
 
 import Modal from "@/components/Modal/Modal";
 
-import { UseUiStore } from "@/types/hooks";
+import type { UseUiStore } from "@/types/hooks";
 
 import { useUiStore } from "@/hooks/useUiStore";
 
-type RenderComponent = { container: HTMLElement };
+interface RenderComponent {
+  container: HTMLElement;
+}
 
 const mockOnResetModal = jest.fn();
 

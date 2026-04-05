@@ -2,7 +2,9 @@ import { render, screen } from "@testing-library/react";
 
 import SideNav from "@/components/SideNav/SideNav";
 
-type RenderComponent = { container: HTMLElement };
+interface RenderComponent {
+  container: HTMLElement;
+}
 
 const renderComponent = (): RenderComponent => {
   const { container } = render(<SideNav />);

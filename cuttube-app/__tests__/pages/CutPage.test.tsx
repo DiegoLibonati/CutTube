@@ -2,13 +2,15 @@ import { render, screen } from "@testing-library/react";
 
 import CutPage from "@/pages/CutPage/CutPage";
 
-import { UseUiStore } from "@/types/hooks";
-import { UseScreenDetector } from "@/types/hooks";
+import type { UseUiStore } from "@/types/hooks";
+import type { UseScreenDetector } from "@/types/hooks";
 
 import { useUiStore } from "@/hooks/useUiStore";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 
-type RenderPage = { container: HTMLElement };
+interface RenderPage {
+  container: HTMLElement;
+}
 
 const mockOnSetLoading = jest.fn();
 const mockOnOpenModal = jest.fn();

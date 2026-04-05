@@ -3,13 +3,15 @@ import userEvent from "@testing-library/user-event";
 
 import CreateClipView from "@/views/CreateClipView/CreateClipView";
 
-import { UseUiStore } from "@/types/hooks";
+import type { UseUiStore } from "@/types/hooks";
 
 import { useUiStore } from "@/hooks/useUiStore";
 
 import cutTubeService from "@/services/cutTubeService";
 
-type RenderComponent = { container: HTMLElement };
+interface RenderView {
+  container: HTMLElement;
+}
 
 const mockOnSetLoading = jest.fn();
 const mockOnOpenModal = jest.fn();
@@ -19,7 +21,7 @@ const mockAnchorElementClick = jest.fn();
 jest.mock("@/hooks/useUiStore");
 jest.mock("@/services/cutTubeService");
 
-const renderComponent = (overrides?: Partial<UseUiStore>): RenderComponent => {
+const renderView = (overrides?: Partial<UseUiStore>): RenderView => {
   (useUiStore as jest.Mock).mockReturnValue({
     modal: { title: "", message: "", buttonText: "", open: false },
     loading: false,
@@ -44,12 +46,12 @@ describe("CreateClipView", () => {
   });
 
   it("should render the page heading", () => {
-    renderComponent();
+    renderView();
     expect(screen.getByRole("heading", { name: "CutTube" })).toBeInTheDocument();
   });
 
   it("should render all form fields", () => {
-    renderComponent();
+    renderView();
     expect(screen.getByLabelText("Start Time")).toBeInTheDocument();
     expect(screen.getByLabelText("End Time")).toBeInTheDocument();
     expect(screen.getByLabelText("Clip Title")).toBeInTheDocument();
@@ -57,18 +59,18 @@ describe("CreateClipView", () => {
   });
 
   it("should render the submit button", () => {
-    renderComponent();
+    renderView();
     expect(screen.getByRole("button", { name: "Submit clip creation" })).toBeInTheDocument();
   });
 
   it("should render a form with the correct aria-label", () => {
-    renderComponent();
+    renderView();
     expect(screen.getByRole("form", { name: "Clip creation form" })).toBeInTheDocument();
   });
 
   it("should show an error modal when submitting with empty fields", async () => {
     const user = userEvent.setup();
-    renderComponent();
+    renderView();
     await user.click(screen.getByRole("button", { name: "Submit clip creation" }));
     expect(mockOnOpenModal).toHaveBeenCalledWith(
       expect.objectContaining({ title: "Error", open: true })
@@ -77,7 +79,7 @@ describe("CreateClipView", () => {
 
   it("should show an error modal when time format is invalid", async () => {
     const user = userEvent.setup();
-    renderComponent();
+    renderView();
     await user.type(screen.getByLabelText("Start Time"), "bad-time");
     await user.type(screen.getByLabelText("End Time"), "bad-time");
     await user.type(screen.getByLabelText("Clip Title"), "my-clip");
@@ -95,7 +97,7 @@ describe("CreateClipView", () => {
       message: "ok",
       data: { name: "my-clip.mp4", filename: "my-clip" },
     });
-    renderComponent();
+    renderView();
     await user.type(screen.getByLabelText("Start Time"), "00:00:10");
     await user.type(screen.getByLabelText("End Time"), "00:00:20");
     await user.type(screen.getByLabelText("Clip Title"), "my-clip");

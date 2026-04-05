@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { FormClip } from "@/types/forms";
+import type { FormClip } from "@/types/forms";
 
 import { apiCutTube } from "@/services/axios";
 import cutTubeService from "@/services/cutTubeService";

@@ -1,22 +1,15 @@
-import { Modal } from "@/types/app";
-import { UseUiStore } from "@/types/hooks";
+import type { Modal } from "@/types/app";
+import type { UseUiStore } from "@/types/hooks";
 
-import {
-  resetModal,
-  setLoading,
-  setModal,
-  setVideoDownloaded,
-} from "@/features/ui/uiSlice";
+import { resetModal, setLoading, setModal, setVideoDownloaded } from "@/features/ui/uiSlice";
 
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 
 export const useUiStore = (): UseUiStore => {
-  const { modal, loading, videoDownloaded } = useAppSelector(
-    (state) => state.ui
-  );
+  const { modal, loading, videoDownloaded } = useAppSelector((state) => state.ui);
   const dispatch = useAppDispatch();
 
-  const onSetLoading = (boolean: boolean) => {
+  const onSetLoading = (boolean: boolean): void => {
     dispatch(setLoading(boolean));
   };
 

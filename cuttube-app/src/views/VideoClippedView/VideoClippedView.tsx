@@ -2,11 +2,13 @@ import { BiCheckCircle } from "react-icons/bi";
 import { PiPencil } from "react-icons/pi";
 import { SlStar } from "react-icons/sl";
 
+import type { JSX } from "react";
+
 import MainLayout from "@/layouts/MainLayout/MainLayout";
 
 import { useUiStore } from "@/hooks/useUiStore";
 
-const VideoClippedView = () => {
+const VideoClippedView = (): JSX.Element => {
   const { onSetVideoDownloaded } = useUiStore();
 
   const handleClickGoBack: React.MouseEventHandler<HTMLButtonElement> = () => {

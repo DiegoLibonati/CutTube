@@ -1,13 +1,13 @@
-export type Clip = {
+export interface Clip {
   start: string;
   end: string;
   filename: string;
   url: string;
-};
+}
 
-export type Modal = {
+export interface Modal {
   title: string;
   message: string;
   buttonText: string;
   open: boolean;
-};
+}

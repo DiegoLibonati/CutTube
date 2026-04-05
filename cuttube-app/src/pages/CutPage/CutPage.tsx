@@ -1,3 +1,5 @@
+import type { JSX } from "react";
+
 import Modal from "@/components/Modal/Modal";
 import NavBar from "@/components/NavBar/NavBar";
 import SideNav from "@/components/SideNav/SideNav";
@@ -9,7 +11,7 @@ import VideoClippedView from "@/views/VideoClippedView/VideoClippedView";
 import { useUiStore } from "@/hooks/useUiStore";
 import { useScreenDetector } from "@/hooks/useScreenDetector";
 
-const CutPage = () => {
+const CutPage = (): JSX.Element => {
   const { isTablet, isDesktop } = useScreenDetector();
   const { modal, loading, videoDownloaded } = useUiStore();
 

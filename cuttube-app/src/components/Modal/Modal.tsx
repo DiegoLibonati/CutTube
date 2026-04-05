@@ -1,6 +1,8 @@
+import type { JSX } from "react";
+
 import { useUiStore } from "@/hooks/useUiStore";
 
-const Modal = () => {
+const Modal = (): JSX.Element => {
   const { modal, onResetModal } = useUiStore();
 
   const handleClickButton: React.MouseEventHandler<HTMLButtonElement> = () => {

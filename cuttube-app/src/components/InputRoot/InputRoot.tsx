@@ -1,6 +1,7 @@
-import { InputRootProps } from "@/types/props";
+import type { JSX } from "react";
+import type { InputRootProps } from "@/types/props";
 
-const InputRoot = ({ children, className }: InputRootProps) => {
+const InputRoot = ({ children, className }: InputRootProps): JSX.Element => {
   return <div className={className}>{children}</div>;
 };
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { UseScreenDetector } from "@/types/hooks";
+import type { UseScreenDetector } from "@/types/hooks";
 
 export const useScreenDetector = (): UseScreenDetector => {
-  const [width, setWidth] = useState<number>(window.innerWidth);
+  const [width, setWidth] = useState(window.innerWidth);
 
   const handleWindowSizeChange = (): void => {
     setWidth(window.innerWidth);
@@ -12,7 +12,7 @@ export const useScreenDetector = (): UseScreenDetector => {
   useEffect(() => {
     window.addEventListener("resize", handleWindowSizeChange);
 
-    return () => {
+    return (): void => {
       window.removeEventListener("resize", handleWindowSizeChange);
     };
   }, []);
