@@ -6,9 +6,9 @@ const SideNav = () => {
       <button
         className="flex items-center justify-start w-full p-3 bg-black rounded-full cursor-pointer"
         type="button"
-        aria-label="create clip"
+        aria-label="Navigate to create a new clip"
       >
-        <BsFilm className="fill-white text-lg"></BsFilm>
+        <BsFilm className="fill-white text-lg" aria-hidden="true"></BsFilm>
         <p className="ml-2 text-white font-semibold">Create clip</p>
       </button>
     </aside>

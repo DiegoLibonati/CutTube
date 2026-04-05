@@ -68,8 +68,6 @@ const CreateClipView = () => {
 
       const download = new Promise((resolve, reject) => {
         try {
-          if (import.meta.env.NODE_ENV === "test") return resolve(void 0);
-
           const a = document.createElement("a") as HTMLAnchorElement;
 
           a.href = `/api/v1/cut/${filename}/download`;
@@ -122,6 +120,7 @@ const CreateClipView = () => {
       <form
         className={`flex flex-col items-start justify-center w-full p-2 md:w-[60%]`}
         onSubmit={handleCreateClip}
+        aria-label="Clip creation form"
       >
         <div className={`flex flex-col w-full md:flex-row`}>
           <InputRoot className="flex flex-col w-full mt-2 px-2">
@@ -196,7 +195,7 @@ const CreateClipView = () => {
         <button
           type="submit"
           className="w-[calc(100%-1rem)] bg-white mt-6 mx-2 py-3 rounded-full cursor-pointer font-semibold"
-          aria-label="create clip view submit"
+          aria-label="Submit clip creation"
         >
           Create Clip
         </button>

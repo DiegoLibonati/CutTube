@@ -15,7 +15,7 @@ const VideoClippedView = () => {
 
   return (
     <MainLayout className="flex flex-col items-center justify-center">
-      <div className="relative">
+      <div className="relative" aria-hidden="true">
         <SlStar className="absolute text-[2rem] -top-18 -left-12" fill="white"></SlStar>
         <PiPencil fill="white" className="absolute text-[4rem] -top-12 left-28"></PiPencil>
         <BiCheckCircle fill="white" className="text-[8rem]"></BiCheckCircle>
@@ -32,7 +32,7 @@ const VideoClippedView = () => {
       <button
         type="button"
         className="text-white bg-secondary p-2 w-[15rem] rounded-full mt-48"
-        aria-label="go back"
+        aria-label="Go back to clip creation"
         onClick={handleClickGoBack}
       >
         Go back
