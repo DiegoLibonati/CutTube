@@ -1,0 +1,38 @@
+#!/bin/sh
+# Pre-commit hook for CutTube monorepo.
+# Runs the Python pre-commit (ruff) when cuttube-api files are staged.
+# Runs husky/lint-staged when cuttube-app files are staged.
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+STAGED_FILES=$(git diff --cached --name-only)
+
+API_FILES=$(echo "$STAGED_FILES" | grep "^cuttube-api/")
+APP_FILES=$(echo "$STAGED_FILES" | grep "^cuttube-app/")
+
+EXIT_CODE=0
+
+if [ -n "$API_FILES" ]; then
+    echo "[pre-commit] Running ruff checks for cuttube-api..."
+    INSTALL_PYTHON="$REPO_ROOT/cuttube-api/venv/Scripts/python.exe"
+    if [ -x "$INSTALL_PYTHON" ]; then
+        "$INSTALL_PYTHON" -mpre_commit run \
+            --config="$REPO_ROOT/cuttube-api/.pre-commit-config.yaml" \
+            --hook-type=pre-commit
+    elif command -v pre-commit > /dev/null; then
+        pre-commit run \
+            --config="$REPO_ROOT/cuttube-api/.pre-commit-config.yaml" \
+            --hook-type=pre-commit
+    else
+        echo '[pre-commit] `pre-commit` not found. Did you forget to activate your virtualenv?' 1>&2
+        exit 1
+    fi
+    EXIT_CODE=$((EXIT_CODE + $?))
+fi
+
+if [ -n "$APP_FILES" ]; then
+    echo "[pre-commit] Running husky/lint-staged for cuttube-app..."
+    cd "$REPO_ROOT/cuttube-app" && sh .husky/pre-commit
+    EXIT_CODE=$((EXIT_CODE + $?))
+fi
+
+exit $EXIT_CODE
