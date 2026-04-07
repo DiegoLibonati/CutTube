@@ -12,6 +12,9 @@ interface RenderView {
 }
 
 const mockOnSetVideoDownloaded = jest.fn();
+const mockOnSetLoading = jest.fn();
+const mockOnOpenModal = jest.fn();
+const mockOnResetModal = jest.fn();
 
 jest.mock("@/hooks/useUiStore");
 
@@ -20,9 +23,9 @@ const renderView = (overrides?: Partial<UseUiStore>): RenderView => {
     modal: { title: "", message: "", buttonText: "", open: false },
     loading: false,
     videoDownloaded: true,
-    onSetLoading: jest.fn(),
-    onOpenModal: jest.fn(),
-    onResetModal: jest.fn(),
+    onSetLoading: mockOnSetLoading,
+    onOpenModal: mockOnOpenModal,
+    onResetModal: mockOnResetModal,
     onSetVideoDownloaded: mockOnSetVideoDownloaded,
     ...overrides,
   });

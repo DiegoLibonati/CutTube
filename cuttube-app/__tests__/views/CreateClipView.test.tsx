@@ -17,6 +17,7 @@ const mockOnSetLoading = jest.fn();
 const mockOnOpenModal = jest.fn();
 const mockOnSetVideoDownloaded = jest.fn();
 const mockAnchorElementClick = jest.fn();
+const mockOnResetModal = jest.fn();
 
 jest.mock("@/hooks/useUiStore");
 jest.mock("@/services/cutTubeService");
@@ -28,7 +29,7 @@ const renderView = (overrides?: Partial<UseUiStore>): RenderView => {
     videoDownloaded: false,
     onSetLoading: mockOnSetLoading,
     onOpenModal: mockOnOpenModal,
-    onResetModal: jest.fn(),
+    onResetModal: mockOnResetModal,
     onSetVideoDownloaded: mockOnSetVideoDownloaded,
     ...overrides,
   });

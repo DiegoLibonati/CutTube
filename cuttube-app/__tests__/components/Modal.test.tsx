@@ -12,6 +12,9 @@ interface RenderComponent {
 }
 
 const mockOnResetModal = jest.fn();
+const mockOnSetLoading = jest.fn();
+const mockOnOpenModal = jest.fn();
+const mockOnSetVideoDownloaded = jest.fn();
 
 jest.mock("@/hooks/useUiStore");
 
@@ -26,9 +29,9 @@ const renderComponent = (overrides?: Partial<UseUiStore>): RenderComponent => {
     loading: false,
     videoDownloaded: false,
     onResetModal: mockOnResetModal,
-    onSetLoading: jest.fn(),
-    onOpenModal: jest.fn(),
-    onSetVideoDownloaded: jest.fn(),
+    onSetLoading: mockOnSetLoading,
+    onOpenModal: mockOnOpenModal,
+    onSetVideoDownloaded: mockOnSetVideoDownloaded,
     ...overrides,
   });
   const { container } = render(<Modal />);
