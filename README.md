@@ -106,7 +106,6 @@ gunicorn==23.0.0
 #### Dev (`[project.optional-dependencies]` dev)
 
 ```
-pre-commit==4.3.0
 pip-audit==2.7.3
 ruff==0.11.12
 mypy==1.13.0
@@ -134,12 +133,14 @@ With the dependencies in mind, the following steps will get the full stack runni
 
 NOTE: You have to be standing in the folder containing the: `dev.docker-compose.yml` and you need to install `Docker Desktop` if you are in Windows.
 
-### Pre-Commit for Development (Python)
+### Git Hooks for Development
 
-NOTE: Install **pre-commit** inside: `cut-tube-api` folder.
+The repository ships a single pre-commit hook at `.githooks/pre-commit` that lints both subprojects when their files are staged:
 
-1. Once you're inside the virtual environment, let's install the hooks specified in the pre-commit. Execute: `pre-commit install`
-2. Now every time you try to commit, the pre-commit lint will run. If you want to do it manually, you can run the command: `pre-commit run --all-files`
+- **`cut-tube-api/`** — runs `ruff check --fix`, `ruff format` and `mypy` from `cut-tube-api/venv/`.
+- **`cut-tube-app/`** — runs `npx lint-staged` from `cut-tube-app/`.
+
+`core.hooksPath` is wired automatically by the `prepare` script in `cut-tube-app/package.json`, so the hook becomes active after `npm install`. You only need a working virtualenv at `cut-tube-api/venv/` for the API checks to run.
 
 ## Env Keys
 

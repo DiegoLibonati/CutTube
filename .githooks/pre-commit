@@ -1,6 +1,6 @@
 #!/bin/sh
 # Pre-commit hook for Cut Tube monorepo.
-# Runs the Python pre-commit (ruff) and mypy when cut-tube-api files are staged.
+# Runs ruff and mypy when cut-tube-api files are staged.
 # Runs lint-staged when cut-tube-app files are staged.
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
@@ -14,30 +14,24 @@ EXIT_CODE=0
 if [ -n "$API_FILES" ]; then
     INSTALL_PYTHON="$REPO_ROOT/cut-tube-api/venv/Scripts/python.exe"
 
-    echo "[pre-commit] Running ruff for cut-tube-api..."
-    if [ -x "$INSTALL_PYTHON" ]; then
-        "$INSTALL_PYTHON" -mpre_commit run \
-            --config="$REPO_ROOT/cut-tube-api/.pre-commit-config.yaml" \
-            --hook-stage=pre-commit
-    elif command -v pre-commit > /dev/null; then
-        pre-commit run \
-            --config="$REPO_ROOT/cut-tube-api/.pre-commit-config.yaml" \
-            --hook-stage=pre-commit
-    else
-        echo '[pre-commit] `pre-commit` not found. Did you forget to activate your virtualenv?' 1>&2
+    if [ ! -x "$INSTALL_PYTHON" ]; then
+        echo '[pre-commit] venv python not found at cut-tube-api/venv/. Did you create the virtualenv?' 1>&2
         exit 1
     fi
+
+    echo "[pre-commit] Running ruff check for cut-tube-api..."
+    "$INSTALL_PYTHON" -m ruff check --fix "$REPO_ROOT/cut-tube-api"
+    EXIT_CODE=$((EXIT_CODE + $?))
+
+    echo "[pre-commit] Running ruff format for cut-tube-api..."
+    "$INSTALL_PYTHON" -m ruff format "$REPO_ROOT/cut-tube-api"
     EXIT_CODE=$((EXIT_CODE + $?))
 
     echo "[pre-commit] Running mypy for cut-tube-api..."
-    if [ -x "$INSTALL_PYTHON" ]; then
-        "$INSTALL_PYTHON" -m mypy \
-            --config-file="$REPO_ROOT/cut-tube-api/pyproject.toml" \
-            "$REPO_ROOT/cut-tube-api"
-        EXIT_CODE=$((EXIT_CODE + $?))
-    else
-        echo '[pre-commit] venv python not found, skipping mypy.' 1>&2
-    fi
+    "$INSTALL_PYTHON" -m mypy \
+        --config-file="$REPO_ROOT/cut-tube-api/pyproject.toml" \
+        "$REPO_ROOT/cut-tube-api"
+    EXIT_CODE=$((EXIT_CODE + $?))
 fi
 
 if [ -n "$APP_FILES" ]; then
