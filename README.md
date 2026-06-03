@@ -52,7 +52,7 @@ The exact dependencies pinned for each side of the project are listed below.
 "axios": "^1.6.8"
 "react": "^19.2.4"
 "react-dom": "^19.2.4"
-"react-router-dom": "7.13.2"
+"react-router": "7.16.0"
 "react-icons": "^5.0.1"
 "react-redux": "^9.1.0"
 ```
