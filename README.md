@@ -365,7 +365,19 @@ pip-audit --skip-editable \
   --ignore-vuln GHSA-wjx4-4jcj-g98j \
   --ignore-vuln GHSA-5xmw-vc9v-4wf2 \
   --ignore-vuln GHSA-r73j-pqj5-w3x7 \
-  --ignore-vuln GHSA-pwv6-vv43-88gr
+  --ignore-vuln GHSA-pwv6-vv43-88gr \
+  --ignore-vuln GHSA-8v84-f9pq-wr9x \
+  --ignore-vuln GHSA-5x94-69rx-g8h2 \
+  --ignore-vuln GHSA-45hq-cxwh-f6vc \
+  --ignore-vuln GHSA-phj9-mv4w-65pm \
+  --ignore-vuln GHSA-4x4j-2g7c-83w6 \
+  --ignore-vuln GHSA-6r8x-57c9-28j4 \
+  --ignore-vuln GHSA-9hw9-ch79-4vh6 \
+  --ignore-vuln GHSA-xj96-63gp-2gmr \
+  --ignore-vuln GHSA-62p4-gmf7-7g93 \
+  --ignore-vuln GHSA-fj7v-r99m-22gq \
+  --ignore-vuln GHSA-jjj6-mw9f-p565 \
+  --ignore-vuln GHSA-vjc4-5qp5-m44j
 python -m pytest --tb=short
 ```
 
@@ -450,8 +462,20 @@ Issues surfaced by the audits above that are tracked but not yet resolved are do
 | GHSA-5xmw-vc9v-4wf2 | 12.2.0 |
 | GHSA-r73j-pqj5-w3x7 | 12.2.0 |
 | GHSA-pwv6-vv43-88gr | 12.2.0 |
+| GHSA-8v84-f9pq-wr9x (PYSEC-2026-2253) | 12.3.0 |
+| GHSA-5x94-69rx-g8h2 (PYSEC-2026-2254) | 12.3.0 |
+| GHSA-45hq-cxwh-f6vc (PYSEC-2026-2255) | 12.3.0 |
+| GHSA-phj9-mv4w-65pm (PYSEC-2026-2256) | 12.3.0 |
+| GHSA-4x4j-2g7c-83w6 (PYSEC-2026-2257) | 12.3.0 |
+| GHSA-6r8x-57c9-28j4 (PYSEC-2026-3451) | 12.3.0 |
+| GHSA-9hw9-ch79-4vh6 (PYSEC-2026-3453) | 12.3.0 |
+| GHSA-xj96-63gp-2gmr (PYSEC-2026-3454) | 12.3.0 |
+| GHSA-62p4-gmf7-7g93 (PYSEC-2026-3493) | 12.3.0 |
+| GHSA-fj7v-r99m-22gq (PYSEC-2026-3494) | 12.3.0 |
+| GHSA-jjj6-mw9f-p565 (PYSEC-2026-3495) | 12.3.0 |
+| GHSA-vjc4-5qp5-m44j (PYSEC-2026-3496) | 12.3.0 |
 
-None of these vulnerabilities are reachable through any code path in Cut Tube. The API only processes video streams downloaded from YouTube; Pillow is loaded transitively by `moviepy` for internal frame manipulation and is **never** exposed to user-supplied images, archives, or arbitrary file paths. The known attack vectors (crafted PSD / ICO / EPS / TGA and similar image files) cannot be reached from any endpoint.
+None of these vulnerabilities are reachable through any code path in Cut Tube. The API only processes video streams downloaded from YouTube; Pillow is loaded transitively by `moviepy` for internal frame manipulation and is **never** exposed to user-supplied images, fonts, archives, or arbitrary file paths. The known attack vectors — crafted image files (PSD / ICO / EPS / TGA / GD / McIdas / JPEG2000 / PDF and similar), crafted PCF / BDF font files, and Pillow APIs the project never invokes (`ImageShow`, `ImageCms`, rank filters) — cannot be reached from any endpoint.
 
 Upgrading Pillow to 12.x is blocked by `moviepy==2.2.1`, which declares `pillow<12.0` as a dependency constraint. This will be resolved automatically once moviepy releases a version that lifts that cap.
 
