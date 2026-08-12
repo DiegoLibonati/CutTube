@@ -9,6 +9,7 @@ dependencies = [
     "moviepy==2.2.1",
     "pydantic==2.11.9",
     "gunicorn==23.0.0",
+    "python-dotenv==1.2.2",
 ]
 
 [project.optional-dependencies]

@@ -101,6 +101,7 @@ flask==3.1.3
 moviepy==2.2.1
 pydantic==2.11.9
 gunicorn==23.0.0
+python-dotenv==1.2.2
 ```
 
 #### Dev (`[project.optional-dependencies]` dev)
@@ -123,15 +124,29 @@ pytest-xdist==3.5.0
 
 ## Getting Started
 
-With the dependencies in mind, the following steps will get the full stack running locally via Docker.
+With the dependencies in mind, the following steps will get the project running locally, with or without Docker.
+
+### With Docker
 
 1. Clone the repository with `git clone "repository link"`
-2. Copy `.env.example.dev` to `.env` so the containers pick up the required configuration (the env keys are documented in the next section).
+2. Copy `cut-tube-api/.env.example` to `cut-tube-api/.env` and `cut-tube-app/.env.example` to `cut-tube-app/.env` so the containers pick up the required configuration (the env keys are documented in the next section).
 3. Join to `cut-tube-app` folder and execute: `npm install` or `yarn install` in the terminal
 4. Go to the previous folder and execute: `docker-compose -f dev.docker-compose.yml build --no-cache` in the terminal
 5. Once built, you must execute the command: `docker-compose -f dev.docker-compose.yml up --force-recreate` in the terminal
 
 NOTE: You have to be standing in the folder containing the: `dev.docker-compose.yml` and you need to install `Docker Desktop` if you are in Windows.
+
+### Without Docker (backend only)
+
+1. Join to the `cut-tube-api` folder
+2. Execute: `python -m venv venv`
+3. Execute in Windows: `venv\Scripts\activate` (Linux/macOS: `source venv/bin/activate`)
+4. Execute: `pip install -e .`
+5. Copy `.env.example` to `.env` and adjust the values if needed (`python-dotenv` loads it automatically, no `env_file` required)
+6. Execute: `python app.py`
+7. Check it is up: `curl http://localhost:5050/api/v1/health/`
+
+To run it with gunicorn instead (Linux/macOS): `gunicorn -c src/configs/gunicorn_config.py wsgi:app`.
 
 ### Git Hooks for Development
 
@@ -145,6 +160,13 @@ The repository ships a single pre-commit hook at `.githooks/pre-commit` that lin
 ## Env Keys
 
 The application reads its configuration from these environment variables.
+
+The backend honors `cut-tube-api/.env` through two load paths:
+
+- **With Docker**: `dev.docker-compose.yml` injects the file via `env_file`, so the variables are already real environment variables inside the container.
+- **Without Docker**: `python-dotenv` loads the file at import time from the two modules that read `os.getenv` — `src/configs/default_config.py` (used by `app.py` and `wsgi.py` through the Flask config classes) and `src/configs/gunicorn_config.py` (loaded directly by gunicorn).
+
+Precedence in both cases: **real environment variables > `.env` values > coded defaults** (`load_dotenv()` never overrides variables that are already set). If no `.env` exists (e.g. in CI), the coded defaults apply.
 
 1. `TZ`: Refers to the timezone setting for the container.
 2. `VITE_API_URL`: Refers to the base URL of the backend API the frontend consumes.
